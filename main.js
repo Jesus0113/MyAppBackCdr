@@ -9,7 +9,7 @@ class ProductManager {
   async #newId() {
 
     const productsPrev = await this.getProducts();
-    const idReturn = !productsPrev.length ? 1 : productsPrev[productsPrev.length -1].id +1;
+    const idReturn = !productsPrev.length ? 1 : productsPrev[productsPrev.length - 1].id + 1;
     return idReturn;
   }
 
@@ -21,6 +21,13 @@ class ProductManager {
 
       if (!obj.title || !obj.description || !obj.price || !obj.thumbnail || !obj.code || !obj.stock) {
         console.log('All fields are required');
+        return;
+      }
+
+      const codeValidator = productsPrev.find(prod => prod.code === obj.code);
+
+      if (codeValidator) {
+        console.log('repeated code');
         return;
       }
 
