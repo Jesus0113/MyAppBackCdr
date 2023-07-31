@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'fs';
 
 class ProductManager {
     constructor(path) {
@@ -19,15 +19,14 @@ class ProductManager {
         const productsPrev = await this.getProducts();
   
         if (!obj.title || !obj.description || !obj.price || !obj.thumbnail || !obj.code || !obj.stock) {
-          console.log('All fields are required');
-          return;
+          return('All fields are required');
         }
   
         const codeValidator = productsPrev.find(prod => prod.code === obj.code);
   
         if (codeValidator) {
-          console.log('repeated code');
-          return;
+          return ('repeated code');
+
         }
   
         let id = await this.#newId();
@@ -47,7 +46,8 @@ class ProductManager {
       try {
         if (fs.existsSync(this.path)) {
           const infArchivo = await fs.promises.readFile(this.path, 'utf-8');
-          return JSON.parse(infArchivo)
+          const infReturn = JSON.parse(infArchivo);
+          return infReturn;
         } else {
           return [];
         }
@@ -62,8 +62,8 @@ class ProductManager {
       try {
   
         const productsPrev = await this.getProducts();
-        const idValidator = productsPrev.find(prod => prod.id === Number(id));
-        idValidator ? console.log(idValidator) : console.log('Not found');
+        const idValidator = productsPrev.find(prod => prod.id === +id);
+        return idValidator ?   idValidator : 'Not found';
   
       } catch (error) {
         return error;
@@ -107,7 +107,5 @@ class ProductManager {
     }
   }
 
-  //Instanciar la clase ************
- const newProducts = new ProductManager('products.json');
 
- export default newProducts;
+ export default ProductManager;
