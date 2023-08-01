@@ -63,7 +63,7 @@ class ProductManager {
   
         const productsPrev = await this.getProducts();
         const idValidator = productsPrev.find(prod => prod.id === +id);
-        return idValidator ?   idValidator : 'Not found';
+        return idValidator ? idValidator : 'Not found';
   
       } catch (error) {
         return error;
@@ -82,8 +82,9 @@ class ProductManager {
   
         } else {
   
-          const findProduct = productsPrev[productIndex];
+          const findProduct = productsPrev[+productIndex];
           productsPrev[productIndex] = { ...findProduct, ...obj };
+          await fs.promises.writeFile(this.path, JSON.stringify(productsPrev));
   
         }
   
