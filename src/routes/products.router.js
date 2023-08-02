@@ -1,18 +1,26 @@
 import { Router } from 'express';
 import ProductManager from '../productsManager.js';
+import {upload} from '../middlewares/multer.middleware.js'
 
 const router = Router();
 
 //Instanciar la clase ************
-const newProducts = new ProductManager('/products.json');
+const newProducts = new ProductManager('./products.json');
 
 
 router.get('/', async (req, res) => {
 
+  const {limit=10 } = req.query;
+ 
   try {
 
     const products = await newProducts.getProducts();
-    res.status(200).json({ message: 'Products', products });
+
+    if(limit){
+      res.status(200).json({message: 'products', products:products.slice(0,limit)})
+    }else{
+      res.status(200).json({ message: 'Products', products });
+    }
 
   } catch (error) {
     res.status(500).json({ error });
@@ -36,7 +44,7 @@ router.get('/:id', async (req, res) => {
 });
 
 
-router.post('/', async (req, res) => {
+router.post('/', upload.single('file'), async (req, res) => {
   try {
 
     const newProduct = await newProducts.addProduct(req.body);

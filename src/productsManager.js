@@ -18,7 +18,7 @@ class ProductManager {
   
         const productsPrev = await this.getProducts();
   
-        if (!obj.title || !obj.description || !obj.price || !obj.thumbnail || !obj.code || !obj.stock) {
+        if (!obj.title || !obj.description || !obj.price || !obj.status || !obj.code || !obj.stock || !obj.category) {
           return('All fields are required');
         }
   
@@ -48,6 +48,7 @@ class ProductManager {
           const infArchivo = await fs.promises.readFile(this.path, 'utf-8');
           const infReturn = JSON.parse(infArchivo);
           return infReturn;
+
         } else {
           return [];
         }
