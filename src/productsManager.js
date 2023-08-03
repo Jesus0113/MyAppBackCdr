@@ -109,5 +109,7 @@ class ProductManager {
     }
   }
 
+  //Instanciar la clase ************
+export const newProducts = new ProductManager('./products.json');
 
- export default ProductManager;
+

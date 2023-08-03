@@ -19,16 +19,6 @@ class CartManager {
   
         const cartsPrev = await this.getCart();
   
-        // if (!obj.title || !obj.description || !obj.price || !obj.thumbnail || !obj.code || !obj.stock) {
-        //   return('All fields are required');
-        // }
-  
-        // const codeValidator = productsPrev.find(prod => prod.code === obj.code);
-  
-        // if (codeValidator) {
-        //   return ('repeated code');
-
-        // }
   
         let id = await this.#newId();
 
@@ -58,15 +48,29 @@ class CartManager {
   
     }
 
+    async getCartById(id) {
+  
+      try {
+        
+        const cartsPrev = await this.getCart();
+        const idCartValidator = cartsPrev.find(c => c.id===id);
+        return idCartValidator? idCartValidator : 'Cart not found';
+        
+      } catch (error) {
+        return error;
+      }
+  
+    }
+
     async addProdCart(idCart, idProd) {
 
       try {
         
         const cartsPrev = await this.getCart();
         const cart = cartsPrev.find(c=>c.id===idCart);
-        const prodIndex = cart.findIndex(p=>p.id===idProd);
+        const prodIndex = cart.products.findIndex(p=>p.id===idProd);
   
-        if(cartIndex===-1){
+        if(prodIndex===-1){
           cart.products.push({id:idProd, quantify:1})
   
         }else{
@@ -81,8 +85,6 @@ class CartManager {
       }
     }
   
-  
-
   }
 
 
