@@ -47,8 +47,8 @@ router.post('/', upload.single('file'), async (req, res) => {
   try {
 
     const newProduct = await newProducts.addProduct(req.body);
-    // res.status(200).json({ message: 'Product created', newProduct });
-    res.redirect('/views/products')
+    res.status(200).json({ message: 'Product created', newProduct });
+    // res.redirect('/views/products')
 
   } catch (error) {
     res.status(500).json({ error });

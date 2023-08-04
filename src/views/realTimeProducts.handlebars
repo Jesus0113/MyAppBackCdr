@@ -1,5 +1,6 @@
+
 <h2>Form Add Product</h2>
-<form action="/api/products" method="post">
+<form id="form">
 
 Title : <input type="text" name="title" id="title">
 Description : <input type="text" name="description" id="description">
@@ -13,3 +14,9 @@ Thumbnail : <input type="file" name="thumbnail" id="thumbnail">
 <input type="submit" value="SEND">
 
 </form>
+
+<div id="container"></div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../public/js/index.js"></script>

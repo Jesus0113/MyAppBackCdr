@@ -1,5 +1,6 @@
 import express from 'express';
 import { engine } from 'express-handlebars';
+import { Server } from "socket.io";
 
 
 import productsRouter from './routes/products.router.js';
@@ -33,6 +34,27 @@ app.use('/views', viewsRouter)
 
 
 const PORT = 8080;
-app.listen(PORT, () => {
+const httpServer = app.listen(PORT, () => {
   console.log('Escuchando el puerto 8080');
+});
+
+const socketServer = new Server(httpServer);
+
+let contendorProducts = [];
+
+socketServer.on('connection', socket =>{
+  console.log(`Usuario conectado ${socket.id}`);
+
+
+  socket.on('disconnect', ()=>{
+    console.log(`Usuario desconectado ${socket.id}`);
+  })
+
+  socket.on('productOnline', prod =>{
+    contendorProducts.push(prod);
+
+    socketServer.emit('allProducts', contendorProducts)
+
+
+  })
 })
