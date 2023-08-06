@@ -2,43 +2,39 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    color: beige;
 }
 
-body {
-    background: rgb(2, 0, 36);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
+h1,h2{
+    text-align: center;
+    padding: 20px;
+    background-color: beige;
 }
-label{
-    display: block;
-    padding: 10px;
-    font-size: 20px;
-    font-style: italic;
-    font-weight: bold;
+
+form{
+    background-color: white;
+width: 50%;
+margin: 20px auto;
+padding: 40px;
+display: flex;
+flex-direction: column;
+border: 2px black solid;
+border-radius: 20px;
+
 }
+
 input{
     display: block;
-    width: 100%;
-    padding: 5px;
-
+    height: 25px;
+    margin-bottom: 20px;
 }
 
-input[type=submit]{
-    background-color: rgb(78, 226, 9);
-    color: black;
-    width: 50%;
-    margin: 20px auto;
-    font-size: 20px;
-    font-weight:bold ;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-input[type=submit]:hover{
-    background-color: rgb(224, 153, 20);
-    color: rgb(0, 0, 0);
+.card{
+    display:inline-block;
+    width: 200px;
+    padding: 10px;
+    margin: 15px;
+    font-size: 25px;
+    text-align: center;
+    border: 2px black solid;
 }
 
