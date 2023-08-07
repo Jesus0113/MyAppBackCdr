@@ -18,10 +18,6 @@ class ProductManager {
   
         const productsPrev = await this.getProducts();
   
-        if (!obj.title || !obj.description || !obj.price || !obj.status || !obj.code || !obj.stock || !obj.category) {
-          return('All fields are required');
-        }
-  
         const codeValidator = productsPrev.find(prod => prod.code === obj.code);
   
         if (codeValidator) {

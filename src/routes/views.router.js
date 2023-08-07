@@ -4,7 +4,7 @@ import {newProducts} from "../productsManager.js";
 
 const router = Router();
 
-router.get('/', async (req, res) =>{
+router.get('/home', async (req, res) =>{
     const products = await newProducts.getProducts();
     res.render('home', {products})
 });

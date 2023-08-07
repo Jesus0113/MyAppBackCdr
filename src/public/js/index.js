@@ -13,12 +13,14 @@ const container = document.getElementById('container');
 
 
 
-formulario.onsubmit = (e) =>{
+
+
+formulario.onsubmit = (e) => {
 
     e.preventDefault();
 
     const productsOn = {
-        title : title.value,
+        title: title.value,
         description: description.value,
         price: price.value,
         status: statusPro.value,
@@ -27,64 +29,97 @@ formulario.onsubmit = (e) =>{
         category: category.value
     }
 
+    if (title.value === "" || description.value === "" || price.value === "" || statusPro.value === "" || code.value === "" || stock.value === "" || category.value === "") {
+        Toastify({
 
-    socketClient.emit('productOnline', productsOn );
+            text: "All fields are required",
+            duration: 3000,
+
+            style: {
+                background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
+                color: "black"
+            },
+
+
+        }).showToast();
+
+    } else {
+        socketClient.emit('productOnline', productsOn);
+    }
+
+
 
 };
 
-socketClient.on('errorCode', ()=>{
+socketClient.on('errorCode', () => {
     Toastify({
 
-        text: "REPEATED CODE (TRY AGAIN)",
+        text: "REPEATED CODE OR DOES NOT EXIST (TRY AGAIN)",
         duration: 3000,
 
         style: {
             background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
             color: "black"
-          },
-          
-        
-        }).showToast();
-})
+        },
 
-socketClient.on('initPro', readProducts =>{
 
-    const containerPr = readProducts.map(p=>{
+    }).showToast();
+});
+
+socketClient.on('initPro', readProducts => {
+
+
+    const containerPr = readProducts.map(p => {
         return `
         <div class="card">          
-        <p>${p.title}</p>
-        <p>${p.description}</p>
-        <p>${p.price}</p>
-        <p>${p.status}</p>
-        <p>${p.code}</p>
-        <p>${p.stock}</p>
-        <p>${p.category}</p>
-        <button id="delete">Delete</button>
+        <p>Title: ${p.title}</p>
+        <p> Description: ${p.description}</p>
+        <p>Price: ${p.price}</p>
+        <p>Status: ${p.status}</p>
+        <p>Code: ${p.code}</p>
+        <p>Stock: ${p.stock}</p>
+        <p>Category: ${p.category}</p>
+        <button class="deleteC" id="delete">Delete</button>
         </div>         
         `
     })
 
     container.innerHTML = containerPr;
-  
-})
 
- socketClient.on('allPro', readProducts =>{
+});
 
-      const containerPr = readProducts.map(p=>{
-          return `
+socketClient.on('allPro', readProducts => {
+
+    Toastify({
+
+        text: "Added product",
+        duration: 3000,
+
+        style: {
+            background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
+            color: "black"
+        },
+
+
+    }).showToast();
+
+    const containerPr = readProducts.map(p => {
+        return `
           <div class="card">          
-          <p>${p.title}</p>
-          <p>${p.description}</p>
-          <p>${p.price}</p>
-          <p>${p.status}</p>
-          <p>${p.code}</p>
-          <p>${p.stock}</p>
-          <p>${p.category}</p>
+          <p>Title: ${p.title}</p>
+          <p> Description: ${p.description}</p>
+          <p>Price: ${p.price}</p>
+          <p>Status: ${p.status}</p>
+          <p>Code: ${p.code}</p>
+          <p>Stock: ${p.stock}</p>
+          <p>Category: ${p.category}</p>
           <button id="delete">Delete</button>
           </div>         
           `
-      })
+    })
 
-      container.innerHTML = containerPr;
-    
- })
+    container.innerHTML = containerPr;
+
+});
+
+

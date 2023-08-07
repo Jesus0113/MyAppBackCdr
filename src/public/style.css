@@ -30,11 +30,20 @@ input{
 
 .card{
     display:inline-block;
-    width: 200px;
-    padding: 10px;
+    background-color: beige;
+    min-width: 200px;
+    padding: 20px;
     margin: 15px;
     font-size: 25px;
     text-align: center;
     border: 2px black solid;
+}
+
+#delete{
+    background-color: rgb(243, 55, 55);
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
 }
 

@@ -50,15 +50,14 @@ socketServer.on('connection', async socket =>{
   const readProducts = await newProducts.getProducts();
 
   socketServer.emit('initPro', readProducts);
-
-
+  
    socket.on('disconnect', ()=>{
      console.log(`Usuario desconectado ${socket.id}`);
    })
 
    socket.on('productOnline', async prod =>{
     const readProducts = await newProducts.getProducts();
-    const validatorCode = readProducts.find(p =>p.code===prod.code)
+    const validatorCode = readProducts.find(p =>p.code===prod.code);
 
     if(validatorCode){
 
