@@ -51,11 +51,11 @@ socketServer.on('connection', async socket =>{
 
   socketServer.emit('initPro', readProducts);
   
-   socket.on('disconnect', ()=>{
+  socket.on('disconnect', ()=>{
      console.log(`Usuario desconectado ${socket.id}`);
-   })
+  });
 
-   socket.on('productOnline', async prod =>{
+  socket.on('productOnline', async prod =>{
     const readProducts = await newProducts.getProducts();
     const validatorCode = readProducts.find(p =>p.code===prod.code);
 
@@ -71,5 +71,14 @@ socketServer.on('connection', async socket =>{
     }
 
 
-   })
+  });
+
+  socket.on('deleteProductForId', async (idDelete)=>{
+
+    await newProducts.deleteProduct(+idDelete);
+    const readProducts = await newProducts.getProducts();
+    
+    socketServer.emit('allPro', readProducts )
+
+  } )
 })

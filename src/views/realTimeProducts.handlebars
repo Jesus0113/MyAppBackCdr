@@ -1,38 +1,38 @@
+<div>
+    <h2>Form Add Product</h2>
+    <form id="form">
 
-<h2>Form Add Product</h2>
-<form id="form">
+        Title : <input type="text" name="title" id="title">
+        Description : <input type="text" name="description" id="description">
+        Price : <input type="number" name="price" id="price">
+        Status : <input type="text" name="status" id="status">
+        Code : <input type="text" name="code" id="code">
+        Stock : <input type="number" name="stock" id="stock">
+        Category : <input type="text" name="category" id="category">
+        Thumbnail : <input type="file" name="thumbnail" id="thumbnail">
 
-Title : <input type="text" name="title" id="title">
-Description : <input type="text" name="description" id="description">
-Price : <input type="number" name="price" id="price">
-Status : <input type="text" name="status" id="status">
-Code : <input type="text" name="code" id="code">
-Stock : <input type="number" name="stock" id="stock">
-Category : <input type="text" name="category" id="category">
-Thumbnail : <input type="file" name="thumbnail" id="thumbnail">
+        <input type="submit" value="SEND">
 
-<input type="submit" value="SEND">
+    </form>
+</div>
+<div>
+    <h2>Form Delete Product</h2>
+    <form id="formDelete">
 
-</form>
+        
+        ID : <input type="number" name="deleteId" id="deleteId">
+
+
+        <input type="submit" value="DELETE">
+
+    </form>
+</div>
+
+
+
 
 <div id="container"></div>
 
-{{!-- <div id="container">{{#if products.length}} --}}
-
-{{!-- {{#each products}}
-<div class="card">
-    <h2>Title : {{title}}</h2>
-    <p>Description : {{description}}</p>
-    <p>Price : {{price}}</p>
-    <p>Stock : {{Stock}}</p>
-    <p>Status : {{status}}</p>
-    <p>Code : {{code}}</p>
-    <p>Category : {{category}}</p>
-</div>
-{{/each}}
-{{else}}
-<h2>No hay productos aun registrados</h2>
-{{/if}}</div> --}}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="/socket.io/socket.io.js"></script>

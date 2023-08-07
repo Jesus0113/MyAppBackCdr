@@ -9,6 +9,8 @@ const code = document.getElementById('code');
 const stock = document.getElementById('stock');
 const category = document.getElementById('category');
 const container = document.getElementById('container');
+const formDelete = document.getElementById('formDelete')
+ const deleteId = document.getElementById('deleteId')
 
 
 
@@ -121,5 +123,15 @@ socketClient.on('allPro', readProducts => {
     container.innerHTML = containerPr;
 
 });
+
+formDelete.onsubmit = (e)=>{
+
+    e.preventDefault();
+
+    console.log(deleteId.value);
+
+    socketClient.emit('deleteProductForId', deleteId.value )
+
+}
 
 
