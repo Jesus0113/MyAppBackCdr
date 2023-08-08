@@ -30,7 +30,7 @@ app.use('/api/products', productsRouter);
 
 app.use('/api/carts', cartRouter);
 
-app.use('/views', viewsRouter)
+app.use('/', viewsRouter)
 
 
 
@@ -78,7 +78,7 @@ socketServer.on('connection', async socket =>{
     await newProducts.deleteProduct(+idDelete);
     const readProducts = await newProducts.getProducts();
     
-    socketServer.emit('allPro', readProducts )
+    socketServer.emit('allProDel', readProducts )
 
   } )
 })

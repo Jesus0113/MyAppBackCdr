@@ -81,7 +81,7 @@ socketClient.on('initPro', readProducts => {
         <p>Code: ${p.code}</p>
         <p>Stock: ${p.stock}</p>
         <p>Category: ${p.category}</p>
-        <button class="deleteC" id="delete">Delete</button>
+        <p>ID: ${p.id}</p>
         </div>         
         `
     })
@@ -115,8 +115,41 @@ socketClient.on('allPro', readProducts => {
           <p>Code: ${p.code}</p>
           <p>Stock: ${p.stock}</p>
           <p>Category: ${p.category}</p>
-          <button id="delete">Delete</button>
-          </div>         
+          <p>ID: ${p.id}</p>
+          div>         
+          `
+    })
+
+    container.innerHTML = containerPr;
+
+});
+socketClient.on('allProDel', readProducts => {
+
+    Toastify({
+
+        text: "Deleted Product",
+        duration: 3000,
+
+        style: {
+            background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
+            color: "black"
+        },
+
+
+    }).showToast();
+
+    const containerPr = readProducts.map(p => {
+        return `
+          <div class="card">          
+          <p>Title: ${p.title}</p>
+          <p> Description: ${p.description}</p>
+          <p>Price: ${p.price}</p>
+          <p>Status: ${p.status}</p>
+          <p>Code: ${p.code}</p>
+          <p>Stock: ${p.stock}</p>
+          <p>Category: ${p.category}</p>
+          <p>ID: ${p.id}</p>
+          div>         
           `
     })
 
@@ -128,9 +161,22 @@ formDelete.onsubmit = (e)=>{
 
     e.preventDefault();
 
-    console.log(deleteId.value);
+    if (deleteId.value === "" ) {
+        Toastify({
 
-    socketClient.emit('deleteProductForId', deleteId.value )
+            text: "Required field",
+            duration: 3000,
+
+            style: {
+                background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
+                color: "black"
+            },
+        }).showToast();
+
+    } else {
+        socketClient.emit('deleteProductForId', deleteId.value )
+        
+    }
 
 }
 
