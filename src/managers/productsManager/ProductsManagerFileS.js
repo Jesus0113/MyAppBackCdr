@@ -1,11 +1,11 @@
 import fs from 'fs';
-import { productsModel } from './db/models/products.model';
+
 
 class ProductManager {
     constructor(path) {
       this.path = path;
     }
-  
+
     async #newId() {
   
       const productsPrev = await this.getProducts();
@@ -14,7 +14,7 @@ class ProductManager {
     }
   
     async addProduct(obj) {
-  
+
       try {
   
         const productsPrev = await this.getProducts();
@@ -39,7 +39,7 @@ class ProductManager {
     }
   
     async getProducts() {
-  
+
       try {
         if (fs.existsSync(this.path)) {
           const infArchivo = await fs.promises.readFile(this.path, 'utf-8');
@@ -56,9 +56,8 @@ class ProductManager {
     }
   
     async getProductById(id) {
-  
+
       try {
-  
         const productsPrev = await this.getProducts();
         const idValidator = productsPrev.find(prod => prod.id === +id);
         return idValidator ? idValidator : 'Not found';
@@ -66,40 +65,33 @@ class ProductManager {
       } catch (error) {
         return error;
       }
-  
     }
   
     async updateProduct(id, obj) {
+
       try {
-  
         const productsPrev = await this.getProducts();
         const productIndex = productsPrev.findIndex(p => p.id === id);
         if (productIndex === -1) {
-  
           return 'ID no found'
-  
         } else {
-  
           const findProduct = productsPrev[+productIndex];
           productsPrev[productIndex] = { ...findProduct, ...obj };
           await fs.promises.writeFile(this.path, JSON.stringify(productsPrev));
-  
         }
   
       } catch (error) {
         return error
-  
       }
   
     }
   
     async deleteProduct(id) {
+
       try {
-  
         const productsPrev = await this.getProducts();
         const afterDelete = productsPrev.filter(prods => prods.id !== id);
         await fs.promises.writeFile(this.path, JSON.stringify(afterDelete));
-  
       } catch (error) {
         return error
       }

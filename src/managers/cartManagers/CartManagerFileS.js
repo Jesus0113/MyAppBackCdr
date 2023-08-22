@@ -1,6 +1,7 @@
 import fs from 'fs';
 
 
+
 class CartManager {
     constructor(path) {
       this.path = path;
@@ -13,27 +14,24 @@ class CartManager {
        return idReturn;
      }
   
-    async addCart() {
-  
+    async addCart(obj) {
+
       try {
-  
         const cartsPrev = await this.getCart();
-  
-  
+    
         let id = await this.#newId();
 
         const cartAdd = { id, products: [] };
         cartsPrev.push(cartAdd);
         await fs.promises.writeFile(this.path, JSON.stringify(cartsPrev));
         return cartAdd;
-  
       } catch (error) {
         return error
       }
     }
   
     async getCart() {
-  
+
       try {
         if (fs.existsSync(this.path)) {
           const infArchivo = await fs.promises.readFile(this.path, 'utf-8');
@@ -45,21 +43,19 @@ class CartManager {
       } catch (error) {
         return error;
       }
-  
+      
     }
 
     async getCartById(id) {
-  
+
       try {
-        
         const cartsPrev = await this.getCart();
         const idCartValidator = cartsPrev.find(c => c.id===id);
         return idCartValidator? idCartValidator : 'Cart not found';
-        
       } catch (error) {
         return error;
       }
-  
+
     }
 
     async addProdCart(idCart, idProd) {
