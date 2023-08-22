@@ -1,6 +1,7 @@
 import express from 'express';
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
+import './db/dbConfig.js'
 
 
 import productsRouter from './routes/products.router.js';
@@ -30,7 +31,8 @@ app.use('/api/products', productsRouter);
 
 app.use('/api/carts', cartRouter);
 
-app.use('/', viewsRouter)
+app.use('/', viewsRouter);
+
 
 
 

@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { productsModel } from './db/models/products.model';
 
 class ProductManager {
     constructor(path) {
