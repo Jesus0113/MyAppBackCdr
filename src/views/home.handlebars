@@ -1,16 +1,16 @@
 {{#if products.length}}
-
-{{#each products}}
-<div class="card">
-    <h2>Title : {{title}}</h2>
-    <p>Description : {{description}}</p>
-    <p>Price : {{price}}</p>
-    <p>Stock : {{Stock}}</p>
-    <p>Status : {{status}}</p>
-    <p>Code : {{code}}</p>
-    <p>Category : {{category}}</p>
-</div>
-{{/each}}
+    {{#each products}}
+        
+        <div class="card">
+            <h2>Title: {{title}}</h2>
+            <p>Description : {{description}}</p>
+            <p>Price: {{this.price}}</p>
+            <p>Stock: {{this.stock}}</p>
+            <p>Status: {{this.status}}</p>
+            <p>code: {{this.code}}</p>
+            <p>Category: {{this.category}}</p> 
+        </div>
+    {{/each}}
 {{else}}
 <h2>No hay productos aun registrados</h2>
 {{/if}}

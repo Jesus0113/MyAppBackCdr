@@ -14,9 +14,6 @@ const formDelete = document.getElementById('formDelete')
 
 
 
-
-
-
 formulario.onsubmit = (e) => {
 
     e.preventDefault();
@@ -45,32 +42,23 @@ formulario.onsubmit = (e) => {
 
         }).showToast();
 
-    } else {
+    }else {
         socketClient.emit('productOnline', productsOn);
     }
-
-
-
 };
 
 socketClient.on('errorCode', () => {
     Toastify({
-
         text: "REPEATED CODE OR DOES NOT EXIST (TRY AGAIN)",
         duration: 3000,
-
         style: {
             background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
             color: "black"
         },
-
-
     }).showToast();
 });
 
 socketClient.on('initPro', readProducts => {
-
-
     const containerPr = readProducts.map(p => {
         return `
         <div class="card">          
@@ -81,30 +69,14 @@ socketClient.on('initPro', readProducts => {
         <p>Code: ${p.code}</p>
         <p>Stock: ${p.stock}</p>
         <p>Category: ${p.category}</p>
-        <p>ID: ${p.id}</p>
+        <p>ID: ${p._id}</p>
         </div>         
         `
     })
-
     container.innerHTML = containerPr;
-
 });
 
 socketClient.on('allPro', readProducts => {
-
-    Toastify({
-
-        text: "Added product",
-        duration: 3000,
-
-        style: {
-            background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
-            color: "black"
-        },
-
-
-    }).showToast();
-
     const containerPr = readProducts.map(p => {
         return `
           <div class="card">          
@@ -115,29 +87,24 @@ socketClient.on('allPro', readProducts => {
           <p>Code: ${p.code}</p>
           <p>Stock: ${p.stock}</p>
           <p>Category: ${p.category}</p>
-          <p>ID: ${p.id}</p>
-          div>         
+          <p>ID: ${p._id}</p>
+          div>
           `
     })
-
     container.innerHTML = containerPr;
+
+    Toastify({
+        text: "Added product",
+        duration: 3000,
+        style: {
+            background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
+            color: "black"
+        },
+
+    }).showToast();
 
 });
 socketClient.on('allProDel', readProducts => {
-
-    Toastify({
-
-        text: "Deleted Product",
-        duration: 3000,
-
-        style: {
-            background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
-            color: "black"
-        },
-
-
-    }).showToast();
-
     const containerPr = readProducts.map(p => {
         return `
           <div class="card">          
@@ -148,13 +115,20 @@ socketClient.on('allProDel', readProducts => {
           <p>Code: ${p.code}</p>
           <p>Stock: ${p.stock}</p>
           <p>Category: ${p.category}</p>
-          <p>ID: ${p.id}</p>
+          <p>ID: ${p._id}</p>
           div>         
           `
-    })
-
+    });
     container.innerHTML = containerPr;
 
+    Toastify({
+        text: "Deleted Product",
+        duration: 3000,
+        style: {
+            background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
+            color: "black"
+        },
+    }).showToast();
 });
 
 formDelete.onsubmit = (e)=>{
@@ -163,19 +137,15 @@ formDelete.onsubmit = (e)=>{
 
     if (deleteId.value === "" ) {
         Toastify({
-
             text: "Required field",
             duration: 3000,
-
             style: {
                 background: "linear-gradient(148deg, rgba(255,191,63,1) 34%, rgba(255,93,0,1) 86%)",
                 color: "black"
             },
         }).showToast();
-
     } else {
         socketClient.emit('deleteProductForId', deleteId.value )
-        
     }
 
 }

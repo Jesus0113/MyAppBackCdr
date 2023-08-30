@@ -1,0 +1,12 @@
+{{#if chats.length}}
+
+{{#each chats}}
+<div class="card">
+    <h2>User : {{user}}</h2>
+    <p>Message : {{message}}</p>
+    
+</div>
+{{/each}}
+{{else}}
+<h2>No hay messages aun registrados</h2>
+{{/if}}
