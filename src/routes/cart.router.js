@@ -3,7 +3,7 @@ import { cartsMongo } from '../Dao/cartManagers/cartManagerMongo.js';
 
 const router = Router();
 
-//Trae todos los carts
+//Trae todos los carts****
 router.get('/', async (req, res) =>{
 
     try {
@@ -16,7 +16,7 @@ router.get('/', async (req, res) =>{
 
 });
 
-//Busca cart por ID
+//Busca cart por ID****
 router.get('/:id', async (req, res) =>{
   const {id} = req.params;
     try {
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) =>{
     }
 });
 
-//Agrega un cart a la BD
+//Agrega un cart a la BD****
 router.post('/', async (req, res) => {
     
     try {
@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
     }
   });
 
-  //Agrega un producto al carrito
+  //Agrega un producto al carrito****
 router.post('/:idCart/products/:idProd', async (req, res) =>{
 
 //Se obtienen los id del params
@@ -57,7 +57,7 @@ router.post('/:idCart/products/:idProd', async (req, res) =>{
   }
 });
 
-//Vaciar cart
+//Vaciar cart****
 router.delete('/:idCart', async (req, res) =>{
   try {
   
@@ -69,7 +69,7 @@ router.delete('/:idCart', async (req, res) =>{
   }
 })
 
-//Elimina product al carrito (baja quantify hasta desaparecer)
+//Elimina product al carrito (baja quantify hasta desaparecer)****
 router.delete('/:idCart/products/:idProd', async (req, res) =>{
   const {idCart, idProd} = req.params;
   try {
