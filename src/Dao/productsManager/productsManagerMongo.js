@@ -15,33 +15,29 @@ class ProductManagerMongo {
   }
 
   //Trae todos los products segun los query que pasemos
-  async getProducts(queryAct) {
+  async getProducts(objQuery) {
+
+    const { limit=10, page=1, sortPrice, ...query} = objQuery;
 
     try {
 
-      
-       const result = await cartModel.paginate(queryAct.query, { page, limit, sort: { price: sortPrice } });
-      
-
-      
-
+       const result = await productsModel.paginate(query ?? {}, { page:page, limit:limit, sort:{"price":sortPrice}});     
+// await console.log(result);
       const info = {
-        status: resul.totalDocs ? 'Succes' : 'Error',
+        status: result.totalDocs ? 'Succes' : 'Error',
         count:result.totalDocs,
         payload: result.docs,
         totalPages:result.totalPages,
-
-
         prePage: PaginaPrevia,
         nextPage: PaginaSiguiente,
-
-
         page: result.page,
         hasPrevPage: result.hasPrevPage,
-        hasNextPage: result.NextPage,
-        nextLink: result.hasNextPage ? `http://localhost:8080/api/carts?page${result.nextPage}`: null,
-        prevLink: result.hasPrevPage ? `http://localhost:8080/api/carts?page${result.prevPage}` : null
+        hasNextPage: result.hasNextPage,
+        nextLink: result.nextPage ? `http://localhost:8080/api/carts?page${result.nextPage}`: null,
+        prevLink: result.prevPage ? `http://localhost:8080/api/carts?page${result.prevPage}` : null
       }
+      await console.log(info ?? 'vacio');
+
 
       return info
 
