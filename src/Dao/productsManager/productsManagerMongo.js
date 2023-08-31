@@ -15,6 +15,12 @@ class ProductManagerMongo {
   }
 
   //Trae todos los products segun los query que pasemos
+
+  // ejemplo de formato URL=  localhost:8080/api/products?limit=11&page=2&sortPrice=ASC&category=street
+  //Limit= nro de elementos en la pagina, page= la pagina que queremos mostrar, 
+  // sortPrice= ordena ASC o DESC el valor price ((opcional)), category= lo que se quiere buscar ej: title: "product title"
+  //pasando las querys para hacer los filtros si se quiere y sino pasar sin query
+
   async getProducts(objQuery) {
 
     const { limit=10, page=1, sortPrice, ...query} = objQuery;
@@ -22,23 +28,21 @@ class ProductManagerMongo {
     try {
 
        const result = await productsModel.paginate(query ?? {}, { page:page, limit:limit, sort:{"price":sortPrice}});     
-// await console.log(result);
+  
       const info = {
-        status: result.totalDocs ? 'Succes' : 'Error',
-        count:result.totalDocs,
         payload: result.docs,
+        status: result.totalDocs > 0 ? 'Succes' : 'Error',
+        count:result.totalDocs,
         totalPages:result.totalPages,
-        prePage: PaginaPrevia,
-        nextPage: PaginaSiguiente,
+        prePage: result.prevPage ,
+        nextPage: result.nextPage ,
         page: result.page,
         hasPrevPage: result.hasPrevPage,
         hasNextPage: result.hasNextPage,
-        nextLink: result.nextPage ? `http://localhost:8080/api/carts?page${result.nextPage}`: null,
-        prevLink: result.prevPage ? `http://localhost:8080/api/carts?page${result.prevPage}` : null
+        nextLink: result.nextPage ? `http://localhost:8080/api/products?page${result.nextPage}`: null,
+        prevLink: result.prevPage ? `http://localhost:8080/api/products?page${result.prevPage}` : null
       }
-      await console.log(info ?? 'vacio');
-
-
+      
       return info
 
     } catch (error) {

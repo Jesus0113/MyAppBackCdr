@@ -38,14 +38,14 @@ router.post('/', async (req, res) => {
     }
   });
 
-  //Agrega un producto al carrito****
-router.post('/:idCart/products/:idProd', async (req, res) =>{
+  //Agrega un producto al carrito o suma quantify****
+router.put('/:idCart/products/:idProd', async (req, res) =>{
 
 //Se obtienen los id del params
   const {idCart, idProd} = req.params;
 
 // Pasamos la cantidad por query
-  const {quantify} = req.query;
+  const {quantify} = req.body;
 
   try {
     

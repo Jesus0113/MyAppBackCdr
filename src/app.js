@@ -44,9 +44,9 @@ const socketServer = new Server(httpServer);
 
 socketServer.on('connection', async socket => {
   console.log(`Usuario conectado ${socket.id}`);
-  const readProducts = await productsMongo.getProducts();
+  const readProducts = await productsMongo.getProducts({});
 
-  socketServer.emit('initPro', readProducts);
+  socketServer.emit('initPro', readProducts.payload);
 
   socket.on('disconnect', () => {
     console.log(`Usuario desconectado ${socket.id}`);
@@ -60,17 +60,17 @@ socketServer.on('connection', async socket => {
       socket.emit('errorCode');
     }else {
       await productsMongo.addProduct(prod);
-      const readProducts = await productsMongo.getProducts();
-      socketServer.emit('allPro', readProducts);
+      const readProducts = await productsMongo.getProducts({});
+      socketServer.emit('allPro', readProducts.payload);
     }
   });
 
   socket.on('deleteProductForId', async (idDelete) => {
 
     await productsMongo.deleteProduct(idDelete);
-    const readProducts = await productsMongo.getProducts();
+    const readProducts = await productsMongo.getProducts({});
 
-    socketServer.emit('allProDel', readProducts)
+    socketServer.emit('allProDel', readProducts.payload)
 
   })
 })

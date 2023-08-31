@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
   try {
 
     const products = await productsMongo.getProducts(req.query);
+   
     res.status(200).json({ message: 'Products', products });
 
   } catch (error) {
@@ -25,7 +26,7 @@ router.get('/:id', async (req, res) => {
 
   try {
 
-    const product = await productsMongo.getProductById(+id);
+    const product = await productsMongo.getProductById(id);
     res.status(200).json({ message: 'User', product });
 
   } catch (error) {

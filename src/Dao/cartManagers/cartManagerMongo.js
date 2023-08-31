@@ -28,7 +28,7 @@ class CartManagerMongo {
   //Trae cart por ID
   async getCartById(id) {
     try {
-      const cartById = await cartModel.findById(id);
+      const cartById = await cartModel.findById(id).populate('products.product', ['title', 'price']);
       return cartById;
     } catch (error) {
       return error;
