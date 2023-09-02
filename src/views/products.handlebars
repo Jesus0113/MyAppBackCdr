@@ -1,14 +1,35 @@
 {{#if products.length}}
-    {{#each products}}
-        
-        <div class="card">
-            {{this}}
-            <input type="submit" value="Agregar al carrito">
-        </div>
+{{#each products}}
 
-    {{/each}}
+<div class="card">
+        {{this}}
+    
+
+        <input type="submit" value="Agregar al carrito">
+        <input type="submit" value="Ver detalles">
+    
+</div>
+{{/each}}
+<div>
+    <button id="siguiente">siguiente</button>
+    <form id="prevPage">
+        <input type="submit" value="Anterior pagina">
+    </form>
+    <form id="nextPage">
+        <input type="submit" id="nextPage" value="Siguiente pagina">
+    </form>
+</div>
 {{else}}
 <h2>No hay productos aun registrados</h2>
 {{/if}}
 
-<input type="submit" value="siguiente pagina">
+
+
+
+
+
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/index.js"></script>

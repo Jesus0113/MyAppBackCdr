@@ -1,12 +1,15 @@
-{{#if chats.length}}
+<h1>Welcome to Chat Messages </h1>
 
-{{#each chats}}
-<div class="card">
-    <h2>User : {{user}}</h2>
-    <p>Message : {{message}}</p>
-    
-</div>
-{{/each}}
-{{else}}
-<h2>No hay messages aun registrados</h2>
-{{/if}}
+<h3 id="name"></h3>
+
+<form id="formChat">
+    <input type="text" name="message" id="message">
+    <input type="submit" value="Enviar">
+</form>
+
+<div id="chat"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/chat.js"></script>

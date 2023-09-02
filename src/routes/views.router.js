@@ -1,9 +1,12 @@
 import { Router } from "express";
 import { productsMongo } from "../Dao/productsManager/productsManagerMongo.js";
 import { cartsMongo } from "../Dao/cartManagers/cartManagerMongo.js";
+import { messagesMongo } from "../Dao/messagesManagers/messageManagerMongo.js";
 
 const router = Router();
 
+
+//Todos los productos
 router.get('/', async (req, res) => {
 
     try {
@@ -18,6 +21,7 @@ router.get('/', async (req, res) => {
 
 });
 
+//form para agg y delete product en tiempo real
 router.get('/realTimeProducts', async (req, res) => {
 
     try {
@@ -32,6 +36,20 @@ router.get('/realTimeProducts', async (req, res) => {
 
 });
 
+//Messages
+router.get('/chat', async (req, res) => {
+
+    try {
+        
+        res.render('chat');
+    } catch (error) {
+        res.status(500).json({ error: "Hubo un error al acceder al listado" });
+    }
+
+});
+
+
+//Muestra productos disponibles para add a cart se pagina con limit=(nro de products deseados) pag=(nro de pagina deseada)
 router.get('/products', async (req, res) => {
 
     try {
@@ -46,6 +64,7 @@ router.get('/products', async (req, res) => {
     }
 });
 
+//Muestra un cart individual con populate
 router.get('/cart/:id', async (req, res) => {
 
     const {id} = req.params;

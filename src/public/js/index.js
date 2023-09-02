@@ -9,12 +9,16 @@ const code = document.getElementById('code');
 const stock = document.getElementById('stock');
 const category = document.getElementById('category');
 const container = document.getElementById('container');
-const formDelete = document.getElementById('formDelete')
- const deleteId = document.getElementById('deleteId')
+const formDelete = document.getElementById('formDelete');
+ const deleteId = document.getElementById('deleteId');
+
+const buttonSiguiente = document.getElementById('siguiente');
+const prevPage = document.getElementById('prevPage');
+const nextPage = document.getElementById('nextPage');
 
 
 
-formulario.onsubmit = (e) => {
+formulario.onsubmit = (e)=>{
 
     e.preventDefault();
 
@@ -149,5 +153,7 @@ formDelete.onsubmit = (e)=>{
     }
 
 }
+
+
 
 
