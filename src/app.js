@@ -9,17 +9,32 @@ import viewsRouter from './routes/views.router.js';
 import { productsMongo } from './Dao/productsManager/productsManagerMongo.js';
 import { messagesMongo } from './Dao/messagesManagers/messageManagerMongo.js';
 import { __dirname } from './utils.js';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
+app.use(cookieParser());
+
+//Config de session
+app.use(session({
+  store: new MongoStore({
+    mongoUrl:'mongodb+srv://Jesusg0113:1234@cluster0.orikb9z.mongodb.net/ecommerce?retryWrites=true&w=majority',
+    ttl: 10
+  }),
+  secret: "secretSession",
+  resave: false,
+  saveUninitialized:false
+}))
 
 //Handlebars
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
-app.set('views', __dirname +'/views');
+app.set('views', __dirname + '/views');
 
 
 
@@ -48,7 +63,7 @@ socketServer.on('connection', async socket => {
   const readProducts = await productsMongo.getProducts({});
 
   socketServer.emit('initPro', readProducts.payload);
-  socket.emit('conectProducts', readProducts )
+  socket.emit('conectProducts', readProducts)
 
   socket.on('disconnect', () => {
     console.log(`Usuario desconectado ${socket.id}`);
@@ -60,7 +75,7 @@ socketServer.on('connection', async socket => {
 
     if (validatorCode) {
       socket.emit('errorCode');
-    }else {
+    } else {
       await productsMongo.addProduct(prod);
       const readProducts = await productsMongo.getProducts({});
       socketServer.emit('allPro', readProducts.payload);
@@ -78,7 +93,7 @@ socketServer.on('connection', async socket => {
 
   //chat***
 
-  socket.on('message', async (infoMensaje)=>{
+  socket.on('message', async (infoMensaje) => {
     messages.push(infoMensaje);
 
     await messagesMongo.addMessage(infoMensaje)
@@ -86,7 +101,7 @@ socketServer.on('connection', async socket => {
     socketServer.emit('chat', messages)
   });
 
-  socket.on('userNewConect', user=>{
+  socket.on('userNewConect', user => {
     socket.broadcast.emit('broadcost', user)
   })
 })

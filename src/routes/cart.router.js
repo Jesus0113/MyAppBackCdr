@@ -39,12 +39,17 @@ router.post('/', async (req, res) => {
   });
 
   //Agrega un producto al carrito o suma quantify****
+
+  // ejemplo para agregar producto de a 1 => localhost:8080/api/carts/64f7ea42f1dcf513363add73/products/64f1141f3df21b722056b336
+
+  // ejemplo para agregar producto con diferente quantify => localhost:8080/api/carts/64f7ea42f1dcf513363add73/products/64f1141f3df21b722056b336  **Por body** {"quantify": 5}
+
 router.put('/:idCart/products/:idProd', async (req, res) =>{
 
 //Se obtienen los id del params
   const {idCart, idProd} = req.params;
 
-// Pasamos la cantidad por query
+// Pasamos la cantidad por body si se quiere mas de un producto
   const {quantify} = req.body;
 
   try {
