@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-app.use(cookieParser());
+app.use(cookieParser('secretKeyCookies'));
 
 //Config de session
 app.use(session({
@@ -28,7 +28,8 @@ app.use(session({
   }),
   secret: "secretSession",
   resave: false,
-  saveUninitialized:false
+  saveUninitialized:false,
+  cookie: {maxAge:60000}
 }))
 
 //Handlebars
