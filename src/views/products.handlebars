@@ -1,7 +1,10 @@
+<h2>Hello {{nameUser}}, WELCOME</h2>
+<h2>Rol: {{rol}}</h2>
 {{#if products.length}}
 {{#each products}}
 
 <div class="card">
+
         {{this}}
     
 
@@ -26,9 +29,4 @@
 
 
 
-
-
-
-
-<script src="/socket.io/socket.io.js"></script>
-<script src="js/index.js"></script>
+<script src="js/products.js"></script>

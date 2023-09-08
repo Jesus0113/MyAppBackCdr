@@ -24,7 +24,7 @@ app.use(cookieParser('secretKeyCookies'));
 app.use(session({
   store: new MongoStore({
     mongoUrl:'mongodb+srv://Jesusg0113:1234@cluster0.orikb9z.mongodb.net/ecommerce?retryWrites=true&w=majority',
-    ttl: 10
+    ttl: 120
   }),
   secret: "secretSession",
   resave: false,

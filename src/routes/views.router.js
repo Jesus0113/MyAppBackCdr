@@ -26,18 +26,22 @@ router.get('/allProducts', async (req, res) => {
 
 //form para agg y delete product en tiempo real
 router.get('/realTimeProducts', async (req, res) => {
-
     const { username } = req.session;
     const user = await usersManager.findUser(username);
 
     try {
-        if(user.isAdmin){
+        if(user){
+            if(user.isAdmin){
             const readProducts = await productsMongo.getProducts(req.query);
             const products = await readProducts.payload;
             res.render('realTimeProducts', { products });
+            }else{
+                res.redirect('/products')
+            }         
         }else{
-            res.redirect('/products')
+            res.redirect('/');
         }
+
     } catch (error) {
         res.status(500).json({ error: "Hubo un error al acceder a RealTimeProducts" })
     }
@@ -64,16 +68,19 @@ router.get('/chat', async (req, res) => {
 //Muestra productos disponibles para add a cart se pagina con limit=(nro de products deseados) pag=(nro de pagina deseada)
 router.get('/products', async (req, res) => {
 
-    const { username } = req.session;
-    const user = await usersManager.findUser(username);
+     const { username } = req.session;
+     const user = await usersManager.findUser(username);
+    
     try {
-        if (user) {
+         if (user) {
+            const nameUser = await user.first_name
+            const rol = await user.isAdmin ? 'admin' : 'user'
             const readProducts = await productsMongo.getProducts(req.query);
             const products = await readProducts.payload;
-            res.render('products', { products });
-        } else {
-            res.render('login');
-        }
+            res.render('products', { products, nameUser, rol });
+         } else {
+             res.redirect('/');
+         }
     } catch (error) {
         res.status(500).json({ error: "Hubo un error al acceder a los productos" })
     }
@@ -82,11 +89,18 @@ router.get('/products', async (req, res) => {
 //Muestra un cart individual con populate
 router.get('/cart/:id', async (req, res) => {
 
+    const { username } = req.session;
+    const user = await usersManager.findUser(username);
     const { id } = req.params;
+
     try {
 
-        const readCart = await cartsMongo.getCartById(id);
-        res.render('cartId', { readCart });
+        if(user){
+            const readCart = await cartsMongo.getCartById(id);
+            res.render('cartId', { readCart });
+        }else{
+            res.redirect('/');
+        }
 
     } catch (error) {
         res.status(500).json({ error: "Hubo un error al acceder este Cart" })
