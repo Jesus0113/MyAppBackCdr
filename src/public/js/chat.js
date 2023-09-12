@@ -32,6 +32,16 @@ Swal.fire({
             message: inputMessage.value
         }
 
+        if(!inputMessage.value){
+            Toastify({
+                text: 'El campo message no puede estar vacio',
+                duration:5000,
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d"
+                }
+            }).showToast();
+        }
+
         socketClient.emit('message', infoMensaje);
     }
 
@@ -46,7 +56,7 @@ Swal.fire({
     });
 
     socketClient.on('broadcost', user =>{
-        Toastyfy({
+        Toastify({
             text: `${user} se ha conectado`,
             duration:5000,
             style: {

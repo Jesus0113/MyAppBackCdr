@@ -1,0 +1,1 @@
+const agregarCarrito = document.getElementById('agregar-carrito');

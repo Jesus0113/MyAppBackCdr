@@ -27,7 +27,8 @@ class ProductManagerMongo {
 
     try {
 
-       const result = await productsModel.paginate(query ?? {}, { page:page, limit:limit, sort:{"price":sortPrice}});     
+       const result = await productsModel.paginate(query ?? {}, { page:page, limit:limit, sort:{"price":sortPrice}});
+       
   
       const info = {
         payload: result.docs,

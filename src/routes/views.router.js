@@ -50,22 +50,16 @@ router.get('/realTimeProducts', async (req, res) => {
 
 //Messages
 router.get('/chat', async (req, res) => {
-
-    const { username } = req.session;
-    const user = await usersManager.findUser(username);
     
     try {
-        if(user){
-            res.render('chat');
-        }else{
-            res.render('login')
-        }
+        res.render('chat');
     } catch (error) {
         res.status(500).json({ error: "Hubo un error al acceder al listado" });
     }
 });
 
 //Muestra productos disponibles para add a cart se pagina con limit=(nro de products deseados) pag=(nro de pagina deseada)
+// ejemplo si se quiere paginar => http://localhost:8080/products?limit=2&page=2&sortPrice=ASC
 router.get('/products', async (req, res) => {
 
      const { username } = req.session;

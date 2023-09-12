@@ -24,12 +24,12 @@ app.use(cookieParser('secretKeyCookies'));
 app.use(session({
   store: new MongoStore({
     mongoUrl:'mongodb+srv://Jesusg0113:1234@cluster0.orikb9z.mongodb.net/ecommerce?retryWrites=true&w=majority',
-    ttl: 120
+    ttl: 1200
   }),
   secret: "secretSession",
   resave: false,
   saveUninitialized:false,
-  cookie: {maxAge:60000}
+  cookie: {maxAge:120000}
 }))
 
 //Handlebars
@@ -64,7 +64,8 @@ socketServer.on('connection', async socket => {
   const readProducts = await productsMongo.getProducts({});
 
   socketServer.emit('initPro', readProducts.payload);
-  socket.emit('conectProducts', readProducts)
+  socket.emit('conectProducts', readProducts);
+  socketServer.emit('chat', messages)
 
   socket.on('disconnect', () => {
     console.log(`Usuario desconectado ${socket.id}`);
@@ -97,7 +98,7 @@ socketServer.on('connection', async socket => {
   socket.on('message', async (infoMensaje) => {
     messages.push(infoMensaje);
 
-    await messagesMongo.addMessage(infoMensaje)
+    const addMensj = await messagesMongo.addMessage(infoMensaje);
 
     socketServer.emit('chat', messages)
   });
