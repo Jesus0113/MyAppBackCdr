@@ -1,7 +1,11 @@
 import express from 'express';
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
-import './db/dbConfig.js'
+import './db/dbConfig.js';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import passport from 'passport';
 
 import productsRouter from './routes/products.router.js';
 import cartRouter from './routes/cart.router.js';
@@ -9,9 +13,7 @@ import viewsRouter from './routes/views.router.js';
 import { productsMongo } from './Dao/productsManager/productsManagerMongo.js';
 import { messagesMongo } from './Dao/messagesManagers/messageManagerMongo.js';
 import { __dirname } from './utils.js';
-import cookieParser from 'cookie-parser';
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
+
 
 const app = express();
 
@@ -31,6 +33,11 @@ app.use(session({
   saveUninitialized:false,
   cookie: {maxAge:120000}
 }))
+
+//Config passport
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Handlebars
 app.engine('handlebars', engine());
