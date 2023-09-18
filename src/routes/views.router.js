@@ -63,13 +63,13 @@ router.get('/chat', async (req, res) => {
 // ejemplo si se quiere paginar => http://localhost:8080/products?limit=2&page=2&sortPrice=ASC
 router.get('/products', async (req, res) => {
 
-     const { username } = req.session;
-     const user = await usersManager.findUser(username);
+    const { user } = req.session.passport
+     const userdb = await usersManager.findUserById(user);
     
     try {
-         if (user) {
-            const nameUser = await user.first_name
-            const rol = await user.isAdmin ? 'admin' : 'user'
+         if (userdb) {
+            const nameUser = await userdb.first_name
+            const rol = await userdb.isAdmin ? 'admin' : 'user'
             const readProducts = await productsMongo.getProducts(req.query);
             const products = await readProducts.payload;
             res.render('products', { products, nameUser, rol });
@@ -189,9 +189,9 @@ router.post('/login', async (req, res) => {
 
 //passport github
 
-router.get('githubSignup', passport.authenticate('github', { scope: [ 'user:email' ] }));
+router.get('/githubSignup', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
-router.get('github', passport.authenticate('github', 
+router.get('/github', passport.authenticate('github', 
 {failureRedirect:'/', successRedirect:'/products'})
 // ,(req, res )=>{
 // req.session['username'] = req.user.username

@@ -57,7 +57,7 @@ passport.use(new GitHubStrategy({
             fromGithub: true            
         };
 
-        const successResult = await usersManager.create(newUser);
+        const successResult = await usersManager.addUser(newUser);
 
         return done(null, successResult);
 

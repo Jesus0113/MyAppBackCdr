@@ -23,6 +23,19 @@ class UsersManager {
         }
     };
 
+    //Encuentra un usuario a la BD por id
+
+    async findUserById(id){
+
+        try {
+            const user = await usersModel.findById(id)
+            return user; 
+        } catch (error) {
+            return error;            
+        }
+
+    }
+
 
 
 
