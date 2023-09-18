@@ -3,6 +3,7 @@ import { productsMongo } from "../Dao/productsManager/productsManagerMongo.js";
 import { cartsMongo } from "../Dao/cartManagers/cartManagerMongo.js";
 import { usersManager } from "../Dao/usersManagers/usersManager.js";
 import { compareData, hashData } from "../utils.js";
+import passport from "passport";
 
 const router = Router();
 
@@ -184,8 +185,18 @@ router.post('/login', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: "Hubo un error al enviar la informacion del Login" });
     }
-})
+});
 
+//passport github
 
+router.get('githubSignup', passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+router.get('github', passport.authenticate('github', 
+{failureRedirect:'/', successRedirect:'/products'})
+// ,(req, res )=>{
+// req.session['username'] = req.user.username
+// req.session['isArmin'] = req.user.isAdmin
+// }
+);
 
 export default router;

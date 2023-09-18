@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
+import './passport/passportStrategies.js'
 
 import productsRouter from './routes/products.router.js';
 import cartRouter from './routes/cart.router.js';
