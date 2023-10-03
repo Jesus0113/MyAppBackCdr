@@ -24,21 +24,21 @@ app.use(express.static(__dirname + '/public'));
 app.use(cookieParser('secretKeyCookies'));
 
 //Config de session
-app.use(session({
-  store: new MongoStore({
-    mongoUrl:'mongodb+srv://Jesusg0113:1234@cluster0.orikb9z.mongodb.net/ecommerce?retryWrites=true&w=majority',
-    ttl: 1200
-  }),
-  secret: "secretSession",
-  resave: false,
-  saveUninitialized:false,
-  cookie: {maxAge:120000}
-}))
+// app.use(session({
+//   store: new MongoStore({
+//     mongoUrl:'mongodb+srv://Jesusg0113:1234@cluster0.orikb9z.mongodb.net/ecommerce?retryWrites=true&w=majority',
+//     ttl: 1200
+//   }),
+//   secret: "secretSession",
+//   resave: false,
+//   saveUninitialized:false,
+//   cookie: {maxAge:120000}
+// }))
 
 //Config passport
 
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 //Handlebars
 app.engine('handlebars', engine());

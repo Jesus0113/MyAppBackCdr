@@ -2,8 +2,9 @@ import { Router } from "express";
 import { productsMongo } from "../Dao/productsManager/productsManagerMongo.js";
 import { cartsMongo } from "../Dao/cartManagers/cartManagerMongo.js";
 import { usersManager } from "../Dao/usersManagers/usersManager.js";
-import { compareData, hashData } from "../utils.js";
+import { compareData, generateToken, hashData } from "../utils.js";
 import passport from "passport";
+import {jwtValidation} from '../middlewares/jwt.middleware.js'
 
 const router = Router();
 
@@ -178,9 +179,11 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Username or Password not valid' });
         }
 
-        req.session['username'] = username;
+        const token = generateToken(userDb)
 
-        res.redirect('/products');
+        // req.session['username'] = username;
+
+        res.status(200).cookie('token', token).redirect('/products');
 
     } catch (error) {
         res.status(500).json({ error: "Hubo un error al enviar la informacion del Login" });
@@ -191,6 +194,8 @@ router.post('/login', async (req, res) => {
 
 router.get('/githubSignup', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
+//callBack github
+ 
 router.get('/github', passport.authenticate('github', 
 {failureRedirect:'/', successRedirect:'/products'})
 // ,(req, res )=>{
@@ -198,5 +203,18 @@ router.get('/github', passport.authenticate('github',
 // req.session['isArmin'] = req.user.isAdmin
 // }
 );
+
+//jwt validation
+
+// router.get('validation', jwtValidation, (req, res)=>{
+//     res.send('prueba')
+// })
+
+//jwt validation passport
+
+router.get('/validation', passport.authenticate('jwt', { session:false}), (req,res)=>{
+    res.send('Probando')
+
+} )
 
 export default router;

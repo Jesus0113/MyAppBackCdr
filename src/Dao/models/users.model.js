@@ -25,6 +25,12 @@ const usersSchema = new mongoose.Schema({
     fromGithub: {
         type:Boolean,
         default:false
+    },
+    role:{
+        type: String,
+        enum: ['admin', 'client', 'premium' ],
+        default:'client'
+
     }
 });
 

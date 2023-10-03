@@ -3,7 +3,11 @@ import { usersModel } from '../Dao/models/users.model.js';
 import { usersManager } from '../Dao/usersManagers/usersManager.js';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github2';
+import {ExtractJwt, Strategy as JwtStrategy} from 'passport-jwt'
 import { compareData } from '../utils.js';
+
+
+const JWT_SECRET_KEY = 'secretJWT'
 
 passport.use('login', new LocalStrategy(
 
@@ -66,6 +70,29 @@ passport.use(new GitHubStrategy({
     }
   }
 ));
+
+//Headers passport
+// passport.use('jwt', new JwtStrategy({
+//     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() ,
+//     secretOrKey: JWT_SECRET_KEY
+
+// }, async (jwt_payload, done)=>{
+//     done(null, jwt_payload.user)
+// }))
+
+//Cookies passport
+
+const cookieExtractor = (req)=>{
+    return req.cookies.token
+}
+
+passport.use('jwt', new JwtStrategy({
+    jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]) ,
+    secretOrKey: JWT_SECRET_KEY
+
+}, async (jwt_payload, done)=>{
+    done(null, jwt_payload.user)
+}))
 
 
 // user => id
