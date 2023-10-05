@@ -1,9 +1,8 @@
-export const authMiddleware = (req, res, next) =>{
-    const {role} = req.body;
-
-    if(role === 'ADMIN'){
-        next();
-    }else{
-        res.status(401).send('not authorized')
+export const authMiddleware = roles=> {
+    return (req, res, next)=> {
+        if( !roles.includes(req.user.role)){
+            return res.status(401).json({message: "You are not authorized to access this route"})
+        }
+        next()
     }
-}
+} 

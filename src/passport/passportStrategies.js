@@ -1,5 +1,4 @@
 import passport from 'passport';
-import { usersModel } from '../Dao/models/users.model.js';
 import { usersManager } from '../Dao/usersManagers/usersManager.js';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github2';
@@ -11,23 +10,18 @@ const JWT_SECRET_KEY = 'secretJWT'
 
 passport.use('login', new LocalStrategy(
 
-    async function (username, password, done) {
+    async function (email, password, done) {
 
         try {
-
-            const userDb = await usersManager.findUser(username);
-
+            const userDb = await usersManager.findUser(email);
             if (!userDb) {
                 return done(null, false);
             }
-
             const isPasswordValid = await compareData(password, userDb.password)
             if (!isPasswordValid) {
                 return done(null, false)
             }
-
             return done(null, userDb)
-
         } catch (error) {
             done(error);
         }
@@ -42,8 +36,7 @@ passport.use(new GitHubStrategy({
   async function(accessToken, refreshToken, profile, done) {
 
     try {
-
-        const userDB = await usersManager.findUser(profile.username);
+        const userDB = await usersManager.findUser(profile.email);
 
         if(userDB){
             if(userDB.fromGithub){
@@ -56,7 +49,7 @@ passport.use(new GitHubStrategy({
         const newUser = {
             first_name:  profile.displayName.split(' ') [0],
             last_name: profile.displayName.split(' ') [1] ,
-            username: profile.username,
+            email: profile.email,
             password: ' ',
             fromGithub: true            
         };
@@ -103,10 +96,9 @@ passport.serializeUser((usuario, done) => {
 // id => user
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await usersModel.findById(id);
+        const user = await usersManager.findUserById(id);
         done(null, user)
     } catch (error) {
         done(error)
     }
-
 })

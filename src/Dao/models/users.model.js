@@ -9,28 +9,31 @@ const usersSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    username: {
+    email: {
         type: String,
         required: true,
         unique: true
+    },
+    age: {
+        type:Number
     },
     password: {
         type: String,
         required: true
     },
-    isAdmin: {
-        type:Boolean,
-        default: false
-    },
-    fromGithub: {
-        type:Boolean,
-        default:false
+    cart: {
+        type:mongoose.SchemaTypes.ObjectId,
+        ref: "Cart",
+        default: null
     },
     role:{
         type: String,
-        enum: ['admin', 'client', 'premium' ],
-        default:'client'
-
+        enum: ['admin', 'user', 'premium' ],
+        default:'user'
+    },
+    fromGithub: {
+        type: Boolean,
+        default:false
     }
 });
 

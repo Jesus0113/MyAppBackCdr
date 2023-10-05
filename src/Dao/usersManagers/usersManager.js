@@ -14,9 +14,9 @@ class UsersManager {
     };
 
     //Encuentra un usuario a la BD
-    async findUser (username){
+    async findUser (email){
         try {
-            const user = await usersModel.findOne({username})
+            const user = await usersModel.findOne({email})
             return user;            
         } catch (error) {
             return error;            
