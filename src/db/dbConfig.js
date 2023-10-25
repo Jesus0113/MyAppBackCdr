@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
+import config from '../config.dotenv.js'
+
 
 //Conect DATA BASE
 
-const URI = 'mongodb+srv://Jesusg0113:1234@cluster0.orikb9z.mongodb.net/ecommerce?retryWrites=true&w=majority'
+const URI = config.mongo_uri
 
 mongoose.connect(URI)
 .then(()=>console.log('Conectado a la Base de datos'))

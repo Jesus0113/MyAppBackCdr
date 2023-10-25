@@ -7,6 +7,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import './passport/passportStrategies.js'
+import config from './config.dotenv.js'
 
 import productsRouter from './routes/products.router.js';
 import cartRouter from './routes/cart.router.js';
@@ -56,10 +57,10 @@ app.use('/api/carts', cartRouter);
 app.use('/', viewsRouter);
 
 
+const PORT = config.port
 
-const PORT = 8080;
 const httpServer = app.listen(PORT, () => {
-  console.log('Escuchando el puerto 8080');
+  console.log(`Escuchando el puerto ${PORT} `);
 });
 
 const socketServer = new Server(httpServer);
