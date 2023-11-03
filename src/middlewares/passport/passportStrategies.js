@@ -1,9 +1,9 @@
 import passport from 'passport';
-import { usersManager } from '../Dao/usersManagers/usersManager.js';
+import { usersManager } from '../../DAL/DAOs/mongoDAOs/usersManager.js';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import {ExtractJwt, Strategy as JwtStrategy} from 'passport-jwt'
-import { compareData } from '../utils.js';
+import { compareData } from '../../utils.js';
 
 
 const JWT_SECRET_KEY = 'secretJWT'

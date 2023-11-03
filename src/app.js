@@ -1,23 +1,27 @@
 import express from 'express';
 import { engine } from 'express-handlebars';
 import { Server } from "socket.io";
-import './db/dbConfig.js';
+import './DAL/mongoDB/dbConfig.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
-import './passport/passportStrategies.js'
+import './middlewares/passport/passportStrategies.js'
 import config from './config.dotenv.js'
+import cors from 'cors'
 
 import productsRouter from './routes/products.router.js';
 import cartRouter from './routes/cart.router.js';
 import viewsRouter from './routes/views.router.js';
-import { productsMongo } from './Dao/productsManager/productsManagerMongo.js';
-import { messagesMongo } from './Dao/messagesManagers/messageManagerMongo.js';
+import usersRouter from './routes/users.router.js';
+import { productsMongo } from './DAL/DAOs/mongoDAOs/productsManagerMongo.js';
+import { messagesMongo } from './DAL/DAOs/mongoDAOs/messageManagerMongo.js';
 import { __dirname } from './utils.js';
 
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -54,7 +58,9 @@ app.use('/api/products', productsRouter);
 
 app.use('/api/carts', cartRouter);
 
-app.use('/', viewsRouter);
+app.use('/views', viewsRouter);
+
+app.use('/', usersRouter );
 
 
 const PORT = config.port

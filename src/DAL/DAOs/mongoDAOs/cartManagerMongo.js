@@ -1,28 +1,10 @@
-import { cartModel } from '../models/cart.model.js';
+import { cartModel } from '../../mongoDB/models/cart.model.js';
+import BasicMongo from './basicMongo.js';
 
-class CartManagerMongo {
+class CartManagerMongo extends BasicMongo {
 
-  //Agrega un cart a la BD
-  async addCart(obj) {
-
-    try {
-      const newCart = await cartModel.create(obj);
-      return newCart;
-
-    } catch (error) {
-      return error;
-    }
-
-  }
-
-  //trae todos los carts en BD
-  async getCart() {
-    try {
-      const findCarts = await cartModel.find({});
-      return findCarts;
-    } catch (error) {
-      return error;
-    }
+  constructor(){
+    super(cartModel)
   }
 
   //Trae cart por ID
