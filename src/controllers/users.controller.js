@@ -44,7 +44,7 @@ class UsersController {
             }
             const token = generateToken(userDb);
             // req.session['username'] = username;
-            res.status(200).cookie('token', token).redirect('/products');
+            res.status(200).cookie('token', token).redirect('/api/products');
         } catch (error) {
             res.status(500).json({ message: error.message });        
         }

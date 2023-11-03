@@ -19,17 +19,15 @@ class CartManagerMongo extends BasicMongo {
 
   //Agrega producto al cart indicado
   async addProdCart(idCart, idProd, quantifyQ) {
-
+    //si no se pasa cantidad tomara 1, si se pasa tomara la correspondiente
     const quantifyQuery = quantifyQ ? +quantifyQ : 1;
 
     try {
-
       const findCart = await this.getCartById(idCart);
       const validatorProd = await findCart.products.find(p => p.product.equals(idProd));
       await validatorProd ? (validatorProd.quantify += quantifyQuery) : findCart.products.push({ product: idProd, quantify: quantifyQ || 1 });
       await findCart.save();
       return findCart
-
     } catch (error) {
       return error;
     }
@@ -39,7 +37,6 @@ class CartManagerMongo extends BasicMongo {
   async deleteProduct(idCart, idProd) {
 
     try {
-
       const findCart = await this.getCartById(idCart);
       const validatorProd = await findCart.products.find(p => p.product.equals(idProd));
 
@@ -60,17 +57,14 @@ class CartManagerMongo extends BasicMongo {
   }
 
   //Elimina arreglo de products en cart
-  async deleteCart({ idCart }) {
-
+  async deleteCart(id) {
     try {
-      const deleteProduct = await cartModel.updateOne({ _id: idCart }, { $set: { products: [] } });
+      const deleteProduct = await cartModel.updateOne({ _id: id }, { $set: { products: [] } });
       return deleteProduct;
-
     } catch (error) {
       return error;
     }
   }
-
 }
 
 //Instanciar la clase ************

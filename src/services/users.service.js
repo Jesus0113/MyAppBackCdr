@@ -22,6 +22,15 @@ class UsersService {
         }
     }
 
+    async findUserById(id){
+        try {
+            const response = await usersManager.findById();
+            return response;            
+        } catch (error) {
+            return error;
+        }
+    }
+
     async createOne(obj){
 
         try {

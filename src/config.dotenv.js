@@ -17,5 +17,9 @@ dotenv.config(
 
 export default {
     mongo_uri: process.env.MONGO_URI,
-    port: process.env.PORT
+    port: process.env.PORT,
+    jwt_secret_key: process.env.JWT_SECRET_KEY,
+    client_id_github: process.env.CLIENT_ID_GITHUB,
+    client_secret_github: process.env.CLIENT_SECRET_GITHUB,
+    callback_url_github: process.env.CALLBACK_URL_GITHUB
 }

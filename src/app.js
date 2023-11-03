@@ -12,7 +12,7 @@ import cors from 'cors'
 
 import productsRouter from './routes/products.router.js';
 import cartRouter from './routes/cart.router.js';
-import viewsRouter from './routes/views.router.js';
+import messagesRouter from './routes/messages.router.js';
 import usersRouter from './routes/users.router.js';
 import { productsMongo } from './DAL/DAOs/mongoDAOs/productsManagerMongo.js';
 import { messagesMongo } from './DAL/DAOs/mongoDAOs/messageManagerMongo.js';
@@ -55,11 +55,8 @@ app.set('views', __dirname + '/views');
 // Rutes
 
 app.use('/api/products', productsRouter);
-
 app.use('/api/carts', cartRouter);
-
-app.use('/views', viewsRouter);
-
+app.use('/chat', messagesRouter);
 app.use('/', usersRouter );
 
 

@@ -1,19 +1,20 @@
 import passport from 'passport';
-import { usersManager } from '../../DAL/DAOs/mongoDAOs/usersManager.js';
+import { usersService } from '../../services/users.service.js';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import {ExtractJwt, Strategy as JwtStrategy} from 'passport-jwt'
 import { compareData } from '../../utils.js';
+import config from '../../config.dotenv.js';
 
 
-const JWT_SECRET_KEY = 'secretJWT'
+const JWT_SECRET_KEY = config.jwt_secret_key
 
 passport.use('login', new LocalStrategy(
 
     async function (email, password, done) {
 
         try {
-            const userDb = await usersManager.findUser(email);
+            const userDb = await usersService.findUserByEmail(email);
             if (!userDb) {
                 return done(null, false);
             }
@@ -29,14 +30,14 @@ passport.use('login', new LocalStrategy(
 ))
 
 passport.use(new GitHubStrategy({
-    clientID: 'Iv1.cd2483c680728702',
-    clientSecret: '06feea24d454e8d062c41824306448653601030a',
-    callbackURL: "http://localhost:8080/github"
+    clientID: config.client_id_github,
+    clientSecret: config.client_secret_github,
+    callbackURL: config.callback_url_github
   },
   async function(accessToken, refreshToken, profile, done) {
 
     try {
-        const userDB = await usersManager.findUser(profile.email);
+        const userDB = await usersService.findUserByEmail(profile.email);
 
         if(userDB){
             if(userDB.fromGithub){
@@ -54,7 +55,7 @@ passport.use(new GitHubStrategy({
             fromGithub: true            
         };
 
-        const successResult = await usersManager.addUser(newUser);
+        const successResult = await usersService.createOne(newUser);
 
         return done(null, successResult);
 
@@ -96,7 +97,7 @@ passport.serializeUser((usuario, done) => {
 // id => user
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await usersManager.findUserById(id);
+        const user = await usersService.findUserById(id);
         done(null, user)
     } catch (error) {
         done(error)

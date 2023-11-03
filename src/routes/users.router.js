@@ -18,7 +18,7 @@ router.post('/registro', usersController.createOneUser);
 //passport github
 router.get('/login/github', passport.authenticate('github', { scope: ['user:email'] }));
 //callBack github
-router.get('/github', passport.authenticate('github',{ failureRedirect: '/', successRedirect: '/products' })
+router.get('/github', passport.authenticate('github',{ failureRedirect: '/', successRedirect: '/api/products' })
     // ,(req, res )=>{
     // req.session['username'] = req.user.username
     // req.session['isArmin'] = req.user.isAdmin
