@@ -7,34 +7,39 @@ class CartsService {
             const response = await cartsMongo.findAll();
             return response;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
     async findOneCartById(id) {
         try {
-            const response = await cartsMongo.findById(id);
+            const response = await cartsMongo.getCartById(id);
             return response;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
-    async createCart(obj) {
+    async createCart() {
+
+        const newCart = {
+            products: []
+        }  
+        
         try {
-            const response = await cartsMongo.createOne(obj);
+            const response = await cartsMongo.createOne(newCart);
             return response;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
-    async updateCart(idCart, idProd, quantifyQ) {
+    async updateCart(idCart, idProd, amount) {
         try {
-            const response = await cartsMongo.addProdCart(idCart, idProd, quantifyQ);
+            const response = await cartsMongo.addProdCart(idCart, idProd, amount);
             return response;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -43,7 +48,7 @@ class CartsService {
             const response = await cartsMongo.deleteProduct(idCart, idProd);
             return response;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -52,7 +57,7 @@ class CartsService {
             const response = await cartsMongo.deleteCart(id);
             return response;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 }

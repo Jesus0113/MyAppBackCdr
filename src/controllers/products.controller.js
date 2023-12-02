@@ -1,4 +1,7 @@
 import { productsService } from "../services/products.service.js";
+import { cartsService } from "../services/carts.service.js";
+import { ErrorMessages } from "../error/error.enum.js";
+import CustomError from "../error/CustomError.js";
 
 class ProductsController {
 
@@ -9,20 +12,22 @@ class ProductsController {
             res.render('home', { products });
             //res.status(200).json({ message: "Success", allProducts });
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            CustomError.createError(ErrorMessages.PRODUCT_NOT_FOUND);
+            // res.status(500).json({ message: error.message });
         }
     }
 
     async allProductsAdmin(req, res) {
         // const { user } = req.session.passport
         //  const userdb = await usersManager.findUserById(user);
-        const { first_name, email, role } = req.user;
-
+       
+        const { first_name, email, role, cart } = req.user;
         try {
-
+            const readCart = await cartsService.findOneCartById(cart)
             const readProducts = await productsService.findAllProducts(req.query);
-            const products = await readProducts.payload;
-            res.render('products', { products, first_name, role });
+            const viewCart = readCart.products
+            const products = readProducts.payload;           
+            res.render('products', { products, first_name, role, email, cart, viewCart });
 
             //  if (userdb) {
             //     const nameUser = await userdb.first_name
@@ -34,7 +39,8 @@ class ProductsController {
             //      res.redirect('/');
             //  }
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            CustomError.createError(ErrorMessages.PRODUCT_NOT_FOUND);
+            // res.status(500).json({ message: error.message });
         }
     }
 
@@ -62,13 +68,17 @@ class ProductsController {
         }
     }
 
-    async findOneProductById(req, res) {
+    async findOneProductById(req, res, next) {
         const { id } = req.params;
         try {
             const product = await productsService.findOneProductById(id);
             res.status(200).json({ message: 'User', product });
+
         } catch (error) {
-            res.status(500).json({ message: error.message });
+
+            CustomError.createError(ErrorMessages.PRODUCT_NOT_FOUND);
+            
+            // res.status(500).json({ message: error.message });
         }
     }
 

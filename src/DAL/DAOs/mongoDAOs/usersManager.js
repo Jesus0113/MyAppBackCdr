@@ -12,7 +12,7 @@ class UsersManager extends BasicMongo {
             const user = await usersModel.findOne({email})
             return user;            
         } catch (error) {
-            return error;            
+            throw error;
         }
     };
 

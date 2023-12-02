@@ -25,7 +25,6 @@ const productsSchema = new mongoose.Schema({
     category: {
         type: String
     }
-
 })
 
 productsSchema.plugin(mongoosePaginate);

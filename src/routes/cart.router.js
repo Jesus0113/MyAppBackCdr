@@ -18,8 +18,8 @@ router.post('/', cartsController.createCart);
   
 // ejemplo para agregar producto de a 1 => localhost:8080/api/carts/64f7ea42f1dcf513363add73/products/64f1141f3df21b722056b336
   
-// ejemplo para agregar producto con diferente quantify => localhost:8080/api/carts/64f7ea42f1dcf513363add73/products/64f1141f3df21b722056b336  **Por body** {"quantify": 5}
-router.put('/:idCart/products/:idProd', cartsController.updateCart);
+// ejemplo para agregar producto con diferente quantify => localhost:8080/api/carts/64f7ea42f1dcf513363add73/products/64f1141f3df21b722056b336  **Por body** {"amount": 5}
+router.post('/:idCart/products/:idProd', cartsController.updateCart);
 
 //Vaciar cart****
 router.delete('/:idCart', cartsController.deleteCartById);
@@ -27,5 +27,6 @@ router.delete('/:idCart', cartsController.deleteCartById);
 //Elimina product al carrito (baja quantify hasta desaparecer)****
 router.delete('/:idCart/products/:idProd', cartsController.deleteProductFromCart);
 
+router.post('/:idCart/purchase',cartsController.purchaseCompleted);
 
 export default router;

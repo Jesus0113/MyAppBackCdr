@@ -43,7 +43,6 @@ formulario.onsubmit = (e)=>{
                 color: "black"
             },
 
-
         }).showToast();
 
     }else {
@@ -64,7 +63,7 @@ socketClient.on('errorCode', () => {
 
 socketClient.on('initPro', readProducts => {
     const containerPr = readProducts.map(p => {
-        return `
+        return (`
         <div class="card">          
         <p>Title: ${p.title}</p>
         <p> Description: ${p.description}</p>
@@ -75,14 +74,14 @@ socketClient.on('initPro', readProducts => {
         <p>Category: ${p.category}</p>
         <p>ID: ${p._id}</p>
         </div>         
-        `
+        `)
     })
     container.innerHTML = containerPr;
 });
 
 socketClient.on('allPro', readProducts => {
     const containerPr = readProducts.map(p => {
-        return `
+        return (`
           <div class="card">          
           <p>Title: ${p.title}</p>
           <p> Description: ${p.description}</p>
@@ -93,7 +92,7 @@ socketClient.on('allPro', readProducts => {
           <p>Category: ${p.category}</p>
           <p>ID: ${p._id}</p>
           div>
-          `
+          `)
     })
     container.innerHTML = containerPr;
 
@@ -110,7 +109,7 @@ socketClient.on('allPro', readProducts => {
 });
 socketClient.on('allProDel', readProducts => {
     const containerPr = readProducts.map(p => {
-        return `
+        return (`
           <div class="card">          
           <p>Title: ${p.title}</p>
           <p> Description: ${p.description}</p>
@@ -121,7 +120,7 @@ socketClient.on('allProDel', readProducts => {
           <p>Category: ${p.category}</p>
           <p>ID: ${p._id}</p>
           div>         
-          `
+          `)
     });
     container.innerHTML = containerPr;
 

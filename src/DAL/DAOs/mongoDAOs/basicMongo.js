@@ -11,7 +11,7 @@ export default class BasicMongo {
             const response = await this.model.find();
             return response;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -21,7 +21,7 @@ export default class BasicMongo {
             const response = await this.model.findById(id);
             return response;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -31,8 +31,9 @@ export default class BasicMongo {
             const response = await this.model.create(obj);
             return response;            
         } catch (error) {
-            return error;
+            throw error;
         }
+
     }
 
 //Elimina por id en la base de datos
@@ -41,7 +42,7 @@ export default class BasicMongo {
             const response = await this.model.findByIdAndDelete(id);
         return response;            
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 }

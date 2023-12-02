@@ -29,7 +29,7 @@ passport.use('login', new LocalStrategy(
     }
 ))
 
-passport.use(new GitHubStrategy({
+passport.use('github', new GitHubStrategy({
     clientID: config.client_id_github,
     clientSecret: config.client_secret_github,
     callbackURL: config.callback_url_github
@@ -37,8 +37,10 @@ passport.use(new GitHubStrategy({
   async function(accessToken, refreshToken, profile, done) {
 
     try {
-        const userDB = await usersService.findUserByEmail(profile.email);
-
+      
+        const userDB = await usersService.findUserByEmail(profile._json.email);
+       
+    
         if(userDB){
             if(userDB.fromGithub){
                 return done(null, userDB);
@@ -50,7 +52,8 @@ passport.use(new GitHubStrategy({
         const newUser = {
             first_name:  profile.displayName.split(' ') [0],
             last_name: profile.displayName.split(' ') [1] ,
-            email: profile.email,
+            email: profile._json.email,
+            age: null,
             password: ' ',
             fromGithub: true            
         };
@@ -103,3 +106,6 @@ passport.deserializeUser(async (id, done) => {
         done(error)
     }
 })
+
+
+

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
+import config from "../config.dotenv.js";
 
-const JWT_SECRET_KEY = 'secretJWT'
+const JWT_SECRET_KEY = config.jwt_secret_key
 
 
 // sin cookies
@@ -27,6 +28,5 @@ export const jwtValidation = (req, res, next)=>{
         next();
     } catch (error) {
         res.status(500).json({message:error})
-     
     }
 }

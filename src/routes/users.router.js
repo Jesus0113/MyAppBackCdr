@@ -15,10 +15,17 @@ router.get('/', usersController.redirectLogin);
 router.post('/login', usersController.findAndLogin);
 //Agrega al usuario
 router.post('/registro', usersController.createOneUser);
+
 //passport github
+// router.get('/login/github', usersController.loginUserGithub);
+
 router.get('/login/github', passport.authenticate('github', { scope: ['user:email'] }));
+
 //callBack github
-router.get('/github', passport.authenticate('github',{ failureRedirect: '/', successRedirect: '/api/products' })
+// router.get('/github', usersController.callBackLoginGithub
+//router.get('/github', passport.authenticate('github',{ failureRedirect: '/', successRedirect: '/api/products/AdminUser' })
+
+ router.get('/github', passport.authenticate('github', { failureRedirect: '/' }), usersController.callBackLoginGithub
     // ,(req, res )=>{
     // req.session['username'] = req.user.username
     // req.session['isArmin'] = req.user.isAdmin
@@ -32,7 +39,9 @@ router.get('/github', passport.authenticate('github',{ failureRedirect: '/', suc
 
 //jwt validation passport
 router.get('/validation', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log(req.user);
     res.send('Probando')
 });
+
 
 export default router;

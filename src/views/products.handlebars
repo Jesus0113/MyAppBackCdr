@@ -1,31 +1,71 @@
 <h2>Hello {{first_name}}, WELCOME</h2>
 <h2>Rol: {{role}}</h2>
+<h2>{{email}}</h2>
+<h2>{{cart}}</h2>
 {{#if products.length}}
-{{#each products}}
+<h3>Your cart</h3>
+<div id="cartMain">
+    {{#each viewCart}}
+    <div class="cartItem">
+        {{#each this}}
+        <div>
+            {{#each product}}
+            <p>{{title}}</p>
+            <p>{{price}}</p>
+            {{/each}}
+            <p>{{quantify}}</p>
+            <p>{{total}}</p>
+        </div>
+        {{/each}}
+        {{!-- <p>Product: ${p.product.title}</p>
+        <p>Price: ${p.product.price}</p>
+        <p>Quantify: ${p.quantify}</p> --}}
+    </div>
+    {{/each}}
 
-<div class="card">
-
-        {{this}}
-    
-        <input type="submit" id="agregar-carrito" value="Agregar al carrito">
-        <input type="submit"  value="Ver detalles">
-    
 </div>
-{{/each}}
+
+<button onclick="comprar()" class="comprar">COMPRAR</button>
+
 <div>
-    <form id="prevPage">
-        <input type="submit" value="Anterior pagina">
-    </form>
-    <form id="nextPage">
-        <input type="submit" id="nextPage" value="Siguiente pagina">
-    </form>
+    <div class="formContainer">
+        <form id='formAdd'>
+            <legend>ADD PRODUCT TO CART</legend>
+            <input type="text" placeholder="Copy and Paste ID Product" id="idProduct">
+            <input type="number" name="amount" id="amount" placeholder="Amount: ej: 1">
+            <input type="submit" value="AGREGAR AL CARRITO">
+        </form>
+
+
+        <form id='formDelete'>
+            <legend>DELETE PRODUCT</legend>
+            <input type="text" placeholder="Copy and Paste ID Product" id="idProductDelete">
+            <input type="submit" value="DELETE PRODUCT">
+        </form>
+
+
+    </div>
+
+    {{#each products}}
+    <div class="card">
+        {{#each this}}
+        <div>
+            <h3>{{title}}</h3>
+            <p>{{description}}</p>
+            <p>{{price}}</p>
+            <p>{{category}}</p>
+            <p>{{status}}</p>
+            <p>{{_id}}</p>
+        </div>
+        {{/each}}
+    </div>
+    {{/each}}
 </div>
 {{else}}
 <h2>No hay productos aun registrados</h2>
 {{/if}}
 
 
-
-
-
-<script src="js/products.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/products.js"></script>

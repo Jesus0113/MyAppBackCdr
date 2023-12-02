@@ -12,11 +12,18 @@ import cors from 'cors'
 
 import productsRouter from './routes/products.router.js';
 import cartRouter from './routes/cart.router.js';
-import messagesRouter from './routes/messages.router.js';
+import chatRouter from './routes/chat.router.js';
 import usersRouter from './routes/users.router.js';
+import messagePrueba from './routes/message.router.js'
+import mockingRouter from './routes/mocking.router.js'
+import loggerRouter from './routes/loggerTest.router.js'
 import { productsMongo } from './DAL/DAOs/mongoDAOs/productsManagerMongo.js';
 import { messagesMongo } from './DAL/DAOs/mongoDAOs/messageManagerMongo.js';
 import { __dirname } from './utils.js';
+import { cartsService } from './services/carts.service.js';
+import { errorMiddleware } from './error/error.middleware.js';
+import { logger } from './winston.js';
+import configDotenv from './config.dotenv.js';
 
 
 const app = express();
@@ -29,21 +36,21 @@ app.use(express.static(__dirname + '/public'));
 app.use(cookieParser('secretKeyCookies'));
 
 //Config de session
-// app.use(session({
-//   store: new MongoStore({
-//     mongoUrl:'mongodb+srv://Jesusg0113:1234@cluster0.orikb9z.mongodb.net/ecommerce?retryWrites=true&w=majority',
-//     ttl: 1200
-//   }),
-//   secret: "secretSession",
-//   resave: false,
-//   saveUninitialized:false,
-//   cookie: {maxAge:120000}
-// }))
+app.use(session({
+  store: new MongoStore({
+    mongoUrl: configDotenv.mongo_uri,
+    ttl: 1200
+  }),
+  secret: "secretSession",
+  resave: false,
+  saveUninitialized:false,
+  cookie: {maxAge:1200}
+}))
 
 //Config passport
 
 app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.session());
 
 //Handlebars
 app.engine('handlebars', engine());
@@ -56,14 +63,21 @@ app.set('views', __dirname + '/views');
 
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
-app.use('/chat', messagesRouter);
-app.use('/', usersRouter );
+app.use('/chat', chatRouter);
+app.use('/', usersRouter);
+app.use('/message-prueba', messagePrueba);
+app.use('/mockingproducts', mockingRouter);
+app.use('/loggerTest', loggerRouter );
+
+
+//ERROR middleware
+app.use(errorMiddleware)
 
 
 const PORT = config.port
 
 const httpServer = app.listen(PORT, () => {
-  console.log(`Escuchando el puerto ${PORT} `);
+  logger.info(`Escuchando el puerto ${PORT} `);
 });
 
 const socketServer = new Server(httpServer);
@@ -73,7 +87,7 @@ let messages = [];
 
 socketServer.on('connection', async socket => {
   console.log(`Usuario conectado ${socket.id}`);
-  const readProducts = await productsMongo.getProducts({});
+  const readProducts = await productsMongo.findAllProducts({});
 
   socketServer.emit('initPro', readProducts.payload);
   socket.emit('conectProducts', readProducts);
@@ -85,13 +99,13 @@ socketServer.on('connection', async socket => {
 
   socket.on('productOnline', async prod => {
 
-    const validatorCode = await productsMongo.getProductOne(prod.code);
+    const validatorCode = await productsMongo.findOneProductCod(prod.code);
 
     if (validatorCode) {
       socket.emit('errorCode');
     } else {
-      await productsMongo.addProduct(prod);
-      const readProducts = await productsMongo.getProducts({});
+      await productsMongo.createOne(prod);
+      const readProducts = await productsMongo.findAllProducts({});
       socketServer.emit('allPro', readProducts.payload);
     }
   });
@@ -99,7 +113,7 @@ socketServer.on('connection', async socket => {
   socket.on('deleteProductForId', async (idDelete) => {
 
     await productsMongo.deleteProduct(idDelete);
-    const readProducts = await productsMongo.getProducts({});
+    const readProducts = await productsMongo.findAllProducts({});
 
     socketServer.emit('allProDel', readProducts.payload)
 
@@ -117,5 +131,28 @@ socketServer.on('connection', async socket => {
 
   socket.on('userNewConect', user => {
     socket.broadcast.emit('broadcost', user)
+  });
+
+
+  //Products
+
+  socket.on('addProdCart', async (prod) => {
+    const cartUpdate = await cartsService.updateCart(prod.cart, prod.product, prod.amount);
+    socket.emit('viewCart', cartUpdate)
+  });
+
+  socket.on('deleteProdCart', async (prod)=> {
+    const cartUpdate = await cartsService.deleteProductFromCart(prod.cart, prod.idProduct);
+    socket.emit('viewCart', cartUpdate)
+  });
+
+  socket.on('buyCart', async newTicket=> {
+    // const cartToBuy = await cartsService.findOneCartById(newTicket.cart)
+    console.log(newTicket);
   })
+
+
+
+
+
 })

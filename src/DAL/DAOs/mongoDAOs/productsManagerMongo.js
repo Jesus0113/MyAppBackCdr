@@ -38,7 +38,7 @@ class ProductManagerMongo extends BasicMongo {
       return info
 
     } catch (error) {
-      return error
+      throw error;
     }
   }
 
@@ -50,7 +50,8 @@ class ProductManagerMongo extends BasicMongo {
       const productFind = await productsModel.findOne({ code: cod });
       return productFind;
     } catch (error) {
-      return error
+      throw error;
+
     }
   }
 
@@ -60,7 +61,7 @@ class ProductManagerMongo extends BasicMongo {
       const updateProduct = await productsModel.updateOne({ _id: id }, { ...obj });
       return updateProduct;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
 }

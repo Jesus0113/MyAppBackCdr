@@ -1,4 +1,21 @@
+<h2>Cart products</h2>
 
-<div>
-    {{readCart}}
-</div>
+{{#each findCart}}
+
+{{#each products}}
+<div class="card">{{this}}</div>
+{{/each}}
+
+
+
+
+{{!-- <div>
+    <div class="card">
+        <p>Producto: {{this}}</p>
+        <p>Description: {{this.description}}</p>
+        <p>Precio: {{this.price}}</p>
+        <p>Cantidad: {{this.quantity}}</p>
+        <p>ID: {{this._id}}</p>
+    </div>
+</div> --}}
+{{/each}}
