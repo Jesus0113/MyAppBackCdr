@@ -3,15 +3,14 @@ import program from "./config.commander.js";
 
 const mode = program.opts().mode
 
-
 dotenv.config(
     {
         path:
-            mode === 'testing'
-                ? '.env.testing'
+            mode === 'stage'
+                ? '.env.stage'
                 : mode === 'development'
                     ? '.env'
-                    : '.env.stage'
+                    : '.env'
     }
 );
 
@@ -23,5 +22,6 @@ export default {
     client_secret_github: process.env.CLIENT_SECRET_GITHUB,
     callback_url_github: process.env.CALLBACK_URL_GITHUB,
     gmail_user: process.env.GMAIL_USER,
-    gmail_password: process.env.GMAIL_PASSWORD
+    gmail_password: process.env.GMAIL_PASSWORD,
+    environment: process.env.ENVIRONMENT
 }
