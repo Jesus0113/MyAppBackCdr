@@ -11,7 +11,7 @@ class TicketsService {
     async createOnePurchase(obj, idCart) {
 
         const { email } = obj;
-        const newCode = Math.floor(Math.random() * 999539979);
+        const newCode = Math.random().toString(32).substring(2) + Date.now().toString(32);
 
         try {
             const findCart = await cartsService.findOneCartById(idCart);
@@ -20,13 +20,13 @@ class TicketsService {
 
             let total = 0;
             actCart.forEach(async p => {
-                
+
                 total += p.total
 
-                 const stockAct = p.product.stock - p.quantify
-                 const restaQuantify = await productsService.updateProduct(p.product._id, {stock: stockAct})
-                
-                
+                const stockAct = p.product.stock - p.quantify
+                const restaQuantify = await productsService.updateProduct(p.product._id, { stock: stockAct })
+
+
             });
 
             const newTicket = {
@@ -35,12 +35,12 @@ class TicketsService {
                 purchaser: email
             }
 
-            findCart.products = await findCart.products.filter(p => p.product.stock < p.quantify );
+            findCart.products = await findCart.products.filter(p => p.product.stock < p.quantify);
             await findCart.save()
 
             const response = await ticketsManager.createOne(newTicket);
             return response;
-            
+
         } catch (error) {
             return error
         }

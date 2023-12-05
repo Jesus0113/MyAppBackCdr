@@ -2,6 +2,7 @@ import { usersManager } from "../DAL/DAOs/mongoDAOs/usersManager.js";
 import { cartsService } from "./carts.service.js";
 import UsersDto from "../DAL/DTOs/users.dto.js";
 import { hashData } from "../utils.js";
+import {transporter} from '../nodemailer.js'
 
 
 class UsersService {
@@ -51,6 +52,57 @@ class UsersService {
             return response;
         } catch (error) {
             throw error;
+        }
+    }
+
+    async validateUser(email) {
+        try {
+            const response = await usersManager.findUserByEmail(email);
+
+            if(response){
+                return true
+            }else{
+                return false
+            }
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async emailConfirmation(email, token){
+        try {
+
+            const messageOpt = {
+                from: "coderhouse43400",
+                to: 'jesusg0113@gmail.com',
+                subject: "Cambiar contraseña",
+                text: "Presiona confirmar para cambiar la contraseña",
+                html: `<a href="https:localhost:8080/resetPassword/${token}"><button>Confirmar</button></a>` 
+                // attachments: [{ path: __dirname + "/imageEjemplo.jpeg" }],
+        
+            };
+            await transporter.sendMail(messageOpt);
+            return true
+        
+            
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async resetPassword(id, obj){
+
+        const {email, newPassword, repeatPassword} = obj;
+        const hashPassword = await hashData(newPassword);    
+
+        try {
+            const changes = {
+                password: hashPassword
+            }
+            const response = await usersManager.updateUser(id, changes)
+            return response;
+        } catch (error) {
+            throw error
         }
     }
 

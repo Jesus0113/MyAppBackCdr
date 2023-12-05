@@ -25,8 +25,21 @@ export const compareData = async(data, hashData)=>{
 //JWT
 
 export const generateToken = (user)=>{
-    const token = jwt.sign({user}, JWT_SECRET_KEY, {expiresIn: 60000} )
+    const token = jwt.sign({user}, JWT_SECRET_KEY, {expiresIn: '1h'} )
     return token
+}
+
+//verify token
+
+export const verifyToken = (token) =>{
+    const tokenCompare = jwt.verify(token, JWT_SECRET_KEY, (err, decoded)=>{
+        if(err){
+            return false
+        }else{
+            return true
+        }
+    })
+    return tokenCompare
 }
 
 //Genera mocks

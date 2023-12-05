@@ -32,6 +32,13 @@ router.get('/login/github', passport.authenticate('github', { scope: ['user:emai
     // }
 );
 
+//Change Password
+
+router.get('/renderReset', usersController.renderResetPassword );
+router.post('/validateUser', usersController.validateUSer);
+router.get('/resetPassword/:token', usersController.resetPassword);
+router.post('/resetPassword', usersController.newPassword);
+
 //jwt validation
 // router.get('validation', jwtValidation, (req, res)=>{
 //     res.send('prueba')
@@ -39,7 +46,6 @@ router.get('/login/github', passport.authenticate('github', { scope: ['user:emai
 
 //jwt validation passport
 router.get('/validation', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log(req.user);
     res.send('Probando')
 });
 
