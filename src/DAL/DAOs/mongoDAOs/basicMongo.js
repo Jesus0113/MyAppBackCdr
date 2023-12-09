@@ -8,7 +8,7 @@ export default class BasicMongo {
 //Encuentra todo segun lo solicitado en la base de datos
     async findAll() {
         try {
-            const response = await this.model.find();
+            const response = await this.model.find({});
             return response;
         } catch (error) {
             throw error;

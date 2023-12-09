@@ -8,6 +8,7 @@ const statusPro = document.getElementById('status');
 const code = document.getElementById('code');
 const stock = document.getElementById('stock');
 const category = document.getElementById('category');
+const owner = document.getElementById('owner');
 const container = document.getElementById('container');
 const formDelete = document.getElementById('formDelete');
  const deleteId = document.getElementById('deleteId');
@@ -29,7 +30,8 @@ formulario.onsubmit = (e)=>{
         status: statusPro.value,
         code: code.value,
         stock: stock.value,
-        category: category.value
+        category: category.value,
+        owner: owner.value
     }
 
     if (title.value === "" || description.value === "" || price.value === "" || statusPro.value === "" || code.value === "" || stock.value === "" || category.value === "") {
@@ -72,6 +74,7 @@ socketClient.on('initPro', readProducts => {
         <p>Code: ${p.code}</p>
         <p>Stock: ${p.stock}</p>
         <p>Category: ${p.category}</p>
+        <p>Owner: ${p.owner}</p>
         <p>ID: ${p._id}</p>
         </div>         
         `)
@@ -90,6 +93,7 @@ socketClient.on('allPro', readProducts => {
           <p>Code: ${p.code}</p>
           <p>Stock: ${p.stock}</p>
           <p>Category: ${p.category}</p>
+          <p>Owner: ${p.owner}</p>
           <p>ID: ${p._id}</p>
           div>
           `)
@@ -118,6 +122,7 @@ socketClient.on('allProDel', readProducts => {
           <p>Code: ${p.code}</p>
           <p>Stock: ${p.stock}</p>
           <p>Category: ${p.category}</p>
+          <p>Owner: ${p.owner}</p>
           <p>ID: ${p._id}</p>
           div>         
           `)

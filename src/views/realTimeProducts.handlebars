@@ -1,5 +1,6 @@
 <div>
     <h2>Form Add Product</h2>
+    <h3>ADMIN</h3>
     <form id="form">
 
         Title : <input type="text" name="title" id="title">
@@ -9,6 +10,7 @@
         Code : <input type="text" name="code" id="code">
         Stock : <input type="number" name="stock" id="stock">
         Category : <input type="text" name="category" id="category">
+        Owner : <input type="email" name="owner" id="owner" placeholder="Email owner">
         Thumbnail : <input type="file" name="thumbnail" id="thumbnail">
 
         <input type="submit" value="SEND">
@@ -18,7 +20,7 @@
 <div>
     <h2>Form Delete Product</h2>
     <form id="formDelete">
-
+        Owner : <input type="text" name="ownerDelete" id="ownerDelete" placeholder="Email"> 
         ID : <input type="text" name="deleteId" id="deleteId">
 
         <input type="submit" value="DELETE">

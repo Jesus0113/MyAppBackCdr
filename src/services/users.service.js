@@ -25,7 +25,7 @@ class UsersService {
 
     async findUserById(id) {
         try {
-            const response = await usersManager.findById();
+            const response = await usersManager.findById(id);
             return response;
         } catch (error) {
             throw error;
@@ -74,7 +74,7 @@ class UsersService {
 
             const messageOpt = {
                 from: "coderhouse43400",
-                to: 'jesusg0113@gmail.com',
+                to: email,
                 subject: "Cambiar contraseña",
                 text: "Presiona confirmar para cambiar la contraseña",
                 html: `<a href="https:localhost:8080/resetPassword/${token}"><button>Confirmar</button></a>` 
@@ -101,6 +101,19 @@ class UsersService {
             }
             const response = await usersManager.updateUser(id, changes)
             return response;
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async updateUser (id, obj){
+
+        const {role} = obj;
+
+        try {
+            const response = await usersManager.updateUser(id, { role: role } );
+            return response
+            
         } catch (error) {
             throw error
         }

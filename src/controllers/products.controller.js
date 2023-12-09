@@ -47,7 +47,6 @@ class ProductsController {
     async realTimeProducts(req, res) {
         // const { email } = req.session;
         // const user = await usersManager.findUser(username);
-        const { role } = req.user;
         try {
             const readProducts = await productsService.findAllProducts(req.query);
             const products = await readProducts.payload;
@@ -103,6 +102,8 @@ class ProductsController {
 
     async deleteProductById(req, res) {
         const { id } = req.params;
+
+        const {owner, role} = req.user
         try {
             const product = await productsService.deleteProductById(id);
             res.status(200).json({ message: "Product deleted", product });

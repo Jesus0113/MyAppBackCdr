@@ -5,14 +5,15 @@ import { ticketsService } from "../services/tickets.service.js";
 
 class CartsController {
 
-    async findAllCarts() {
+    async findAllCarts(req, res) {
         try {
             const carts = await cartsService.findAllCarts();
+            console.log('carts', carts);
             res.status(200).json({ messag: 'Carts', carts })
 
         } catch (error) {
-            CustomError.createError(ErrorMessages.CART_NOT_FOUND);
-            // res.status(401).json({ error });
+            // CustomError.createError(ErrorMessages.CART_NOT_FOUND);
+            res.status(401).json({ error });
         }
     }
 
@@ -35,9 +36,6 @@ class CartsController {
 
     async createCart(req, res) {
         // const {cart} = req.user;
-
-    
-
         try {
             const newCart = await cartsService.createCart();
             res.status(200).json({ message: 'Cart created', newCart })
@@ -52,6 +50,7 @@ class CartsController {
         const { idCart, idProd } = req.params;
         // Pasamos la cantidad por body si se quiere mas de un producto
         const { amount } = req.body;
+
 
         try {
             const addProd = await cartsService.updateCart(idCart, idProd, amount);

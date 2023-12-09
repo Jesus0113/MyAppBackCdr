@@ -1,6 +1,8 @@
 import { Router } from "express";
 import passport from "passport";
 import { usersController } from "../controllers/users.controller.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { jwtValidation } from "../middlewares/jwt.middleware.js";
 
 const router = Router();
 
@@ -38,6 +40,12 @@ router.get('/renderReset', usersController.renderResetPassword );
 router.post('/validateUser', usersController.validateUSer);
 router.get('/resetPassword/:token', usersController.resetPassword);
 router.post('/resetPassword', usersController.newPassword);
+
+//User premium
+router.get('/api/users/premium',jwtValidation ,authMiddleware(['premium']), usersController.premiumRender);
+//enviar por body role = user o premium
+router.post('/api/users/premium/:userId', authMiddleware(['premium']), usersController.premiumUser);
+
 
 //jwt validation
 // router.get('validation', jwtValidation, (req, res)=>{

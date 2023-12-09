@@ -42,7 +42,6 @@ class ProductManagerMongo extends BasicMongo {
     }
   }
 
-
   //Obtiene un produco por code
   async findOneProductCod(cod) {
 

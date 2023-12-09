@@ -1,0 +1,145 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtener todos los carts
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Todos los carts fueron obtenidos correctamente
+        "401":
+          description: No autorizado
+        "500":
+         description: Error interno
+    post:
+      summary: Agrega un cart
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: cart agregado correctamente
+        "401":
+          description: No autorizado
+        "500":
+          description: Error interno
+
+  /api/carts/{idCart}:
+    get:
+      summary: Obtener un cart por id
+      tags:
+        - Carts
+      parameters:
+        name: idCart
+        in: path
+        description: id del cart
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: El cart fue obtenido correctamente
+        "401":
+          description: No autorizado
+        "500":
+          description: Error interno
+    delete:
+      summary: Vacea el array de products
+      tags:
+        - Carts
+      parameters:
+        name: idCart
+        in: path
+        required: true
+        description: id del cart
+        schema:
+          $type: string
+      responses:
+        "200":
+          description: Cart eliminado correctamente
+        "401":
+          description: No autorizado
+        "500":
+          description: Error interno
+
+  /api/carts/{idCart}/products/{idProd}:
+    put:
+      summary: Agrega un producto al carrito o suma quantify
+      tags:
+        - Carts
+      parameters:
+        - name: idCart
+          in: path
+          required: true
+          description: id del cart
+          schema:
+            $type: 
+          
+        - name: idProd
+          in: path
+          required: true
+          description: id del producto
+          schema:
+            $type: string
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateCart"
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id del cart generado por la base de datos
+        products:
+          type: array
+          description: array donde se almacena los productos agregados al carrito
+          
+          product:
+            type: ObjectId
+            description: id que viene relacionado con el schema de Products, cada id es un producto
+          quantify: 
+            type: Number
+            description: Es la cantidad agregada de dicho producto
+          total:
+            type: Number
+            description: Es el total, la multiplicacion de quantify y precio del producto   
+      example:
+        _id: ObjectId("64f114563df21b722056b33c")
+        products: 
+          product: ObjectId("64f114563df21b722056b33c"),
+          quantify: 1,
+          total: 100
+
+  requestBodies:
+    updateCart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id del cart generado por la base de datos
+        products:
+          type: array
+          description: array donde se almacena los productos agregados al carrito
+          
+          product:
+            type: ObjectId
+            description: id que viene relacionado con el schema de Products, cada id es un producto
+          quantify: 
+            type: Number
+            description: Es la cantidad agregada de dicho producto
+          total:
+            type: Number
+            description: Es el total, la multiplicacion de quantify y precio del producto        
+      example:
+        _id: ObjectId("64f114563df21b722056b33c")
+        products: 
+          product: ObjectId("64f114563df21b722056b33c"),
+          quantify: 1,
+          total: 100
+        
+        

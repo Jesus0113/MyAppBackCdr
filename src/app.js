@@ -24,6 +24,8 @@ import { cartsService } from './services/carts.service.js';
 import { errorMiddleware } from './error/error.middleware.js';
 import { logger } from './winston.js';
 import configDotenv from './config.dotenv.js';
+import { specs } from './swagger/swaggerOption.js';
+import swaggerUiExpress from "swagger-ui-express"
 
 
 const app = express();
@@ -57,6 +59,8 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
+//Swagger
+app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 
 // Rutes
@@ -112,7 +116,7 @@ socketServer.on('connection', async socket => {
 
   socket.on('deleteProductForId', async (idDelete) => {
 
-    await productsMongo.deleteProduct(idDelete);
+    await productsMongo.deleteOne(idDelete);
     const readProducts = await productsMongo.findAllProducts({});
 
     socketServer.emit('allProDel', readProducts.payload)

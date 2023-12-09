@@ -22,6 +22,7 @@ class ProductsService {
     }
 
     async createOneProduct(obj) {
+        
         try {
             const response = await productsMongo.createOne(obj);
             return response;

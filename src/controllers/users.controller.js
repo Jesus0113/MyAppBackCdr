@@ -150,17 +150,17 @@ class UsersController {
         const { token } = req.params
         const checkToken = verifyToken(token);
         try {
-        if (!checkToken) {
-            res.render('passwordReset');
-        }else{
-            res.render('changePassword')
-        }
+            if (!checkToken) {
+                res.render('passwordReset');
+            } else {
+                res.render('changePassword')
+            }
         } catch (error) {
             CustomError.createError(ErrorMessages.ACTION_NOT);
         }
     }
 
-    async newPassword (req, res){
+    async newPassword(req, res) {
 
         const { email, newPassword, repeatPassword } = req.body
         if (!email || !newPassword || !repeatPassword) {
@@ -179,10 +179,35 @@ class UsersController {
             if (validPassword) {
                 return res.status(401).json({ message: 'No se puede colocar la misma contraseña' });
             }
-             const reset = await usersService.resetPassword(user._id, req.body);
-             res.status(200).json({ message: "Success", user: reset });  
+            const reset = await usersService.resetPassword(user._id, req.body);
+            res.status(200).json({ message: "Success", user: reset });
         } catch (error) {
-            CustomError.createError(ErrorMessages.ACTION_NOT);  
+            CustomError.createError(ErrorMessages.ACTION_NOT);
+        }
+    }
+
+    async premiumRender(req, res) {
+        try {
+            res.render('userPremium');
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async premiumUser(req, res) {
+        const { userId } = req.params;
+        const { role } = req.body;
+
+        try {
+            if (role === 'user' || role === 'premium') {
+                const updateUserNew = await usersService.updateUser(userId, req.body);
+                res.status(200).json({ message: 'Success', updateUserNew })
+            } else {
+                return res.status(400).json({ message: 'invalid information' });
+            }
+
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
     }
 }

@@ -1,0 +1,209 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Todos los productos fueron obtenidos correctamente
+        "401":
+          description: No autorizado
+        "500":
+          description: Error interno
+    post:
+      summary: Agrega un producto
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Producto agregado correctamente
+        "401":
+          description: No autorizado
+        "500":
+          description: Error interno
+
+  /api/products/{id}:
+    get:
+      summary: Obtener un producto
+      tags:
+        - Products
+      parameters:
+        name: id
+        in: path
+        description: id del producto
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: El producto fue obtenido correctamente
+        "401":
+          description: No autorizado
+        "500":
+          description: Error interno
+    put:
+      summary: Actualiza un producto
+      tags:
+        - Products
+      parameters:
+        name: id
+        in: path
+        required: true
+        description: id del producto
+        schema:
+          $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateProduct"
+    delete:
+      summary: Elimina un producto
+      tags:
+        - Products
+      parameters:
+        name: id
+        in: path
+        required: true
+        description: id del producto
+        schema:
+          $type: string
+      responses:
+        "200":
+          description: Producto eliminado correctamente
+        "401":
+          description: No autorizado
+        "500":
+          description: Error interno
+
+  /api/products/realTimeProducts:
+    get:
+      summary: Ruta que obtiene todos los productos, para en tiempo real agregar o eliminar
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Todos los productos fueron obtenidos correctamente
+        "401":
+          description: No autorizado
+        "500":
+          description: Error interno
+
+  /api/products/AdminUser?limit=5&page=2&sortPrice=ASC:
+    get:
+      summary: Obtener todos los productos para agregar al carrito y poder realizar la compra
+      tags:
+        - Products
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          description: solo se utiliza si se quiere paginar ya que el numero que se coloque es la cantidad de producto que va a traer
+          schema:
+            $type: integer
+        - name: page
+          in: query
+          required: false
+          description: solo se utiliza si se quiere una pagina en especifico, uso recomendado cuando se use la paginacion
+          schema:
+            $type: integer
+        - name: sortPrice
+          in: query
+          required: false
+          description: solo se utiliza si se quiere ordenar ASC o DESC, tiene por defecto ASC asi que en caso de necesitar los products en orden descendente se puede usar
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Todos los productos fueron obtenidos correctamente
+        "401":
+          description: No autorizado
+        "500":
+          description: Error interno
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id del producto generado por la base de datos
+        title:
+          type: String
+          description: Titulo o nombre del producto
+        description:
+          type: String
+          description: Descripcion o detalles del producto
+        price:
+          type: Number
+          description: Precio del producto
+        status:
+          type: String
+          description: Si esta disponible o no el producto
+        code:
+          type: Number,
+          unique: true
+          description: Codigo unico del producto
+        stock:
+          type: Number,
+          default: 0
+          description: Stock disponible
+        category:
+          type: String
+          description: Categoria a la que pertenece el producto
+        owner:
+          type: String,
+          default: "admin"
+          description: Correo o Id del creador del producto
+      example:
+        _id: ObjectId("64f114563df21b722056b33c")
+        title: JavaScript
+        description: programmin course
+        price: 5000
+        status: Available
+        code: 789io
+        stock: 20
+        category: course
+
+  requestBodies:
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Titulo o nombre del producto
+        description:
+          type: String
+          description: Descripcion o detalles del producto
+        price:
+          type: Number
+          description: Precio del producto
+        status:
+          type: String
+          description: Si esta disponible o no el producto
+        code:
+          type: String,
+          unique: true
+          description: Codigo unico del producto
+        stock:
+          type: Number,
+          default: 0
+          description: Stock disponible
+        category:
+          type: String
+          description: Categoria a la que pertenece el producto
+        owner:
+          type: String,
+          default: "admin"
+          description: Correo o Id del creador del producto
+      example:
+        _id: ObjectId("64f114563df21b722056b33c")
+        title: JavaScript
+        description: programmin course
+        price: 5000
+        status: Available
+        code: 789io
+        stock: 20
+        category: course
