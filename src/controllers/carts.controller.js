@@ -50,7 +50,6 @@ class CartsController {
         // Pasamos la cantidad por body si se quiere mas de un producto
         const { amount } = req.body;
 
-
         try {
             const addProd = await cartsService.updateCart(idCart, idProd, amount);
             res.status(200).json({ message: 'Product added', cart: addProd });

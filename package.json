@@ -5,8 +5,8 @@
   "type": "module",
   "main": "main.js",
   "scripts": {
-    "start:dev": "nodemon src/app.js -m development ",
-    "start:test": "node src/app.js --mode testing ",
+    "start:dev": "node src/app.js -m development ",
+    "start:test": "nodemon src/app.js --mode testing ",
     "start:stage": "node src/app.js --mode stage",
     "test": "mocha -t 10000 src/test/supertest.test.js"
   },

@@ -13,7 +13,7 @@ class CartManagerMongo extends BasicMongo {
   async getCartById(id) {
     try {
      
-      const cartById = await cartModel.findById(id).populate('products.product');
+      const cartById = await cartModel.findById(id)
       return cartById;
 
     } catch (error) {
@@ -28,7 +28,6 @@ class CartManagerMongo extends BasicMongo {
     const quantifyQuery = amount ? +amount : 1;
 
     try {
-      
       const findCart = await this.getCartById(idCart);
       const validatorProd = await findCart.products.find(p => p.product.equals(idProd));
       const product = await productsService.findOneProductById(idProd);      
