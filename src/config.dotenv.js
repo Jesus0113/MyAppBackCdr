@@ -10,7 +10,7 @@ dotenv.config(
                 ? '.env.stage'
                 : mode === 'development'
                     ? '.env'
-                    : '.env'
+                    : '.env.testing'
     }
 );
 

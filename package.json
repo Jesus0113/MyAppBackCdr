@@ -6,8 +6,9 @@
   "main": "main.js",
   "scripts": {
     "start:dev": "nodemon src/app.js -m development ",
-    "start:test": "node src/app.js ",
-    "start:stage": "node src/app.js --mode stage"
+    "start:test": "node src/app.js --mode testing ",
+    "start:stage": "node src/app.js --mode stage",
+    "test": "mocha -t 10000 src/test/supertest.test.js"
   },
   "keywords": [],
   "author": "",
@@ -36,5 +37,11 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.11",
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }

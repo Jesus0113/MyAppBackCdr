@@ -9,8 +9,8 @@ class ProductsController {
         try {
             const allProducts = await productsService.findAllProducts(req.query);
             const products = await allProducts.payload;
-            res.render('home', { products });
-            //res.status(200).json({ message: "Success", allProducts });
+            //res.render('home', { products });
+            res.status(200).json({ message: "Success", allProducts });
         } catch (error) {
             CustomError.createError(ErrorMessages.PRODUCT_NOT_FOUND);
             // res.status(500).json({ message: error.message });
@@ -103,7 +103,6 @@ class ProductsController {
     async deleteProductById(req, res) {
         const { id } = req.params;
 
-        const {owner, role} = req.user
         try {
             const product = await productsService.deleteProductById(id);
             res.status(200).json({ message: "Product deleted", product });

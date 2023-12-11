@@ -8,7 +8,6 @@ class CartsController {
     async findAllCarts(req, res) {
         try {
             const carts = await cartsService.findAllCarts();
-            console.log('carts', carts);
             res.status(200).json({ messag: 'Carts', carts })
 
         } catch (error) {
@@ -22,12 +21,12 @@ class CartsController {
         try {
             const findCart = await cartsService.findOneCartById(id);
 
-            if (findCart) {
-                res.render('cartId', { findCart });
-            } else {
-                res.redirect('/api/products');
-            }
-            // res.status(200).json({ message: 'Cart', findCart })
+            // if (findCart) {
+            //     res.render('cartId', { findCart });
+            // } else {
+            //     res.redirect('/api/products');
+            // }
+             res.status(200).json({ message: 'Cart', findCart })
         } catch (error) {
             CustomError.createError(ErrorMessages.CART_NOT_FOUND);
             // res.status(401).json({ error });
